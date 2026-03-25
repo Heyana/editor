@@ -142,6 +142,11 @@
       "toggle": "Toggle Theme"
     }
   },
+  "ceiling": {
+    "low": "Low (2.4m)",
+    "standard": "Standard (2.5m)",
+    "high": "High (3.0m)"
+  },
   "properties": {
     "position": "Position",
     "rotation": "Rotation",
@@ -178,6 +183,18 @@
     "done": "Done",
     "cameraSnapshot": "Camera snapshot",
     "clearSelection": "Clear selection",
-    "toggleSidebar": "Toggle Sidebar"
+    "toggleSidebar": "Toggle Sidebar",
+    "noHoles": "No holes",
+    "hole": "Hole",
+    "editing": "Editing",
+    "hinge": "Hinge",
+    "hingeSide": "Hinge Side",
+    "left": "Left",
+    "right": "Right",
+    "opening": "Opening",
+    "openingAngle": "Opening Angle",
+    "handleHeight": "Handle Height",
+    "colWidths": "Col Widths",
+    "rowHeights": "Row Heights"
   }
 }

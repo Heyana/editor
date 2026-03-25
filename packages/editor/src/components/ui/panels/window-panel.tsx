@@ -3,6 +3,7 @@
 import { type AnyNode, type AnyNodeId, emitter, useScene, WindowNode } from '@pascal-app/core'
 import { useViewer } from '@pascal-app/viewer'
 import { BookMarked, Copy, FlipHorizontal2, Move, Trash2 } from 'lucide-react'
+import { useTranslations } from 'next-intl'
 import { useCallback } from 'react'
 import { usePresetsAdapter } from '../../../contexts/presets-context'
 import { sfxEmitter } from '../../../lib/sfx-bus'
@@ -16,6 +17,7 @@ import { PanelWrapper } from './panel-wrapper'
 import { PresetsPopover } from './presets/presets-popover'
 
 export function WindowPanel() {
+  const t = useTranslations()
   const selectedIds = useViewer((s) => s.selection.selectedIds)
   const setSelection = useViewer((s) => s.setSelection)
   const nodes = useScene((s) => s.nodes)
@@ -202,7 +204,7 @@ export function WindowPanel() {
         </PresetsPopover>
       </div>
 
-      <PanelSection title="Position">
+      <PanelSection title={t('properties.position')}>
         <SliderControl
           label={
             <>
@@ -235,15 +237,15 @@ export function WindowPanel() {
           <ActionButton
             className="w-full"
             icon={<FlipHorizontal2 className="h-4 w-4" />}
-            label="Flip Side"
+            label={t('properties.flipSide')}
             onClick={handleFlip}
           />
         </div>
       </PanelSection>
 
-      <PanelSection title="Dimensions">
+      <PanelSection title={t('properties.dimensions')}>
         <SliderControl
-          label="Width"
+          label={t('properties.width')}
           max={5}
           min={0.2}
           onChange={(v) => handleUpdate({ width: v })}
@@ -253,7 +255,7 @@ export function WindowPanel() {
           value={Math.round(node.width * 100) / 100}
         />
         <SliderControl
-          label="Height"
+          label={t('properties.height')}
           max={5}
           min={0.2}
           onChange={(v) => handleUpdate({ height: v })}
@@ -264,9 +266,9 @@ export function WindowPanel() {
         />
       </PanelSection>
 
-      <PanelSection title="Frame">
+      <PanelSection title={t('properties.frame')}>
         <SliderControl
-          label="Thickness"
+          label={t('properties.thickness')}
           max={0.2}
           min={0.01}
           onChange={(v) => handleUpdate({ frameThickness: v })}
@@ -276,7 +278,7 @@ export function WindowPanel() {
           value={Math.round(node.frameThickness * 1000) / 1000}
         />
         <SliderControl
-          label="Depth"
+          label={t('properties.depth')}
           max={0.3}
           min={0.01}
           onChange={(v) => handleUpdate({ frameDepth: v })}
@@ -287,9 +289,9 @@ export function WindowPanel() {
         />
       </PanelSection>
 
-      <PanelSection title="Grid">
+      <PanelSection title={t('properties.grid')}>
         <SliderControl
-          label="Columns"
+          label={t('properties.columns')}
           max={8}
           min={1}
           onChange={(v) => {
@@ -301,7 +303,7 @@ export function WindowPanel() {
           value={numCols}
         />
         <SliderControl
-          label="Rows"
+          label={t('properties.rows')}
           max={8}
           min={1}
           onChange={(v) => {
@@ -333,7 +335,7 @@ export function WindowPanel() {
             ))}
             <div className="mt-1 border-border/50 border-t pt-1">
               <SliderControl
-                label="Divider"
+                label={t('properties.divider')}
                 max={0.1}
                 min={0.005}
                 onChange={(v) => handleUpdate({ columnDividerThickness: v })}
@@ -366,7 +368,7 @@ export function WindowPanel() {
             ))}
             <div className="mt-1 border-border/50 border-t pt-1">
               <SliderControl
-                label="Divider"
+                label={t('properties.divider')}
                 max={0.1}
                 min={0.005}
                 onChange={(v) => handleUpdate({ rowDividerThickness: v })}
@@ -380,16 +382,16 @@ export function WindowPanel() {
         )}
       </PanelSection>
 
-      <PanelSection title="Sill">
+      <PanelSection title={t('properties.sill')}>
         <ToggleControl
           checked={node.sill}
-          label="Enable Sill"
+          label={t('properties.enableSill')}
           onChange={(checked) => handleUpdate({ sill: checked })}
         />
         {node.sill && (
           <div className="mt-1 flex flex-col gap-1">
             <SliderControl
-              label="Depth"
+              label={t('properties.depth')}
               max={0.5}
               min={0.01}
               onChange={(v) => handleUpdate({ sillDepth: v })}
@@ -399,7 +401,7 @@ export function WindowPanel() {
               value={Math.round(node.sillDepth * 1000) / 1000}
             />
             <SliderControl
-              label="Thickness"
+              label={t('properties.thickness')}
               max={0.2}
               min={0.005}
               onChange={(v) => handleUpdate({ sillThickness: v })}
@@ -412,18 +414,18 @@ export function WindowPanel() {
         )}
       </PanelSection>
 
-      <PanelSection title="Actions">
+      <PanelSection title={t('properties.actions')}>
         <ActionGroup>
-          <ActionButton icon={<Move className="h-3.5 w-3.5" />} label="Move" onClick={handleMove} />
+          <ActionButton icon={<Move className="h-3.5 w-3.5" />} label={t('editor.actions.move')} onClick={handleMove} />
           <ActionButton
             icon={<Copy className="h-3.5 w-3.5" />}
-            label="Duplicate"
+            label={t('editor.actions.duplicate')}
             onClick={handleDuplicate}
           />
           <ActionButton
             className="hover:bg-red-500/20"
             icon={<Trash2 className="h-3.5 w-3.5 text-red-400" />}
-            label="Delete"
+            label={t('common.delete')}
             onClick={handleDelete}
           />
         </ActionGroup>

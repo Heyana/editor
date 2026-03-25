@@ -2,12 +2,14 @@
 
 import { type AnyNode, type AnyNodeId, useScene, type WallNode } from '@pascal-app/core'
 import { useViewer } from '@pascal-app/viewer'
+import { useTranslations } from 'next-intl'
 import { useCallback } from 'react'
 import { PanelSection } from '../controls/panel-section'
 import { SliderControl } from '../controls/slider-control'
 import { PanelWrapper } from './panel-wrapper'
 
 export function WallPanel() {
+  const t = useTranslations()
   const selectedIds = useViewer((s) => s.selection.selectedIds)
   const setSelection = useViewer((s) => s.setSelection)
   const nodes = useScene((s) => s.nodes)
@@ -42,12 +44,12 @@ export function WallPanel() {
     <PanelWrapper
       icon="/icons/wall.png"
       onClose={handleClose}
-      title={node.name || 'Wall'}
+      title={node.name || t('editor.tools.wall')}
       width={280}
     >
-      <PanelSection title="Dimensions">
+      <PanelSection title={t('properties.dimensions')}>
         <SliderControl
-          label="Height"
+          label={t('properties.height')}
           max={6}
           min={0.1}
           onChange={(v) => handleUpdate({ height: Math.max(0.1, v) })}
@@ -57,7 +59,7 @@ export function WallPanel() {
           value={Math.round(height * 100) / 100}
         />
         <SliderControl
-          label="Thickness"
+          label={t('properties.thickness')}
           max={1}
           min={0.05}
           onChange={(v) => handleUpdate({ thickness: Math.max(0.05, v) })}
@@ -68,9 +70,9 @@ export function WallPanel() {
         />
       </PanelSection>
 
-      <PanelSection title="Info">
+      <PanelSection title={t('properties.info')}>
         <div className="flex items-center justify-between px-2 py-1 text-muted-foreground text-sm">
-          <span>Length</span>
+          <span>{t('properties.length')}</span>
           <span className="font-mono text-white">{length.toFixed(2)} m</span>
         </div>
       </PanelSection>

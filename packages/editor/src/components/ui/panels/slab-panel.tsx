@@ -3,6 +3,7 @@
 import { type AnyNode, type SlabNode, useScene } from '@pascal-app/core'
 import { useViewer } from '@pascal-app/viewer'
 import { Edit, Plus, Trash2 } from 'lucide-react'
+import { useTranslations } from 'next-intl'
 import { useCallback, useEffect } from 'react'
 import useEditor from '../../../store/use-editor'
 import { ActionButton, ActionGroup } from '../controls/action-button'
@@ -11,6 +12,7 @@ import { SliderControl } from '../controls/slider-control'
 import { PanelWrapper } from './panel-wrapper'
 
 export function SlabPanel() {
+  const t = useTranslations()
   const selectedIds = useViewer((s) => s.selection.selectedIds)
   const setSelection = useViewer((s) => s.setSelection)
   const nodes = useScene((s) => s.nodes)
@@ -112,12 +114,12 @@ export function SlabPanel() {
     <PanelWrapper
       icon="/icons/floor.png"
       onClose={handleClose}
-      title={node.name || 'Slab'}
+      title={node.name || t('editor.tools.slab')}
       width={320}
     >
-      <PanelSection title="Elevation">
+      <PanelSection title={t('properties.elevation')}>
         <SliderControl
-          label="Height"
+          label={t('properties.height')}
           max={1}
           min={-1}
           onChange={(v) => handleUpdate({ elevation: v })}
@@ -128,21 +130,21 @@ export function SlabPanel() {
         />
 
         <div className="mt-2 grid grid-cols-2 gap-1.5 px-1 pb-1">
-          <ActionButton label="Sunken (-15cm)" onClick={() => handleUpdate({ elevation: -0.15 })} />
-          <ActionButton label="Ground (0m)" onClick={() => handleUpdate({ elevation: 0 })} />
-          <ActionButton label="Raised (+5cm)" onClick={() => handleUpdate({ elevation: 0.05 })} />
-          <ActionButton label="Step (+15cm)" onClick={() => handleUpdate({ elevation: 0.15 })} />
+          <ActionButton label={t('properties.sunken')} onClick={() => handleUpdate({ elevation: -0.15 })} />
+          <ActionButton label={t('properties.ground')} onClick={() => handleUpdate({ elevation: 0 })} />
+          <ActionButton label={t('properties.raised')} onClick={() => handleUpdate({ elevation: 0.05 })} />
+          <ActionButton label={t('properties.step')} onClick={() => handleUpdate({ elevation: 0.15 })} />
         </div>
       </PanelSection>
 
-      <PanelSection title="Info">
+      <PanelSection title={t('properties.info')}>
         <div className="flex items-center justify-between px-2 py-1 text-muted-foreground text-sm">
-          <span>Area</span>
+          <span>{t('properties.area')}</span>
           <span className="font-mono text-white">{area.toFixed(2)} m²</span>
         </div>
       </PanelSection>
 
-      <PanelSection title="Holes">
+      <PanelSection title={t('properties.holes')}>
         {node.holes && node.holes.length > 0 ? (
           <div className="flex flex-col gap-1 pb-2">
             {node.holes.map((hole, index) => {
@@ -159,10 +161,8 @@ export function SlabPanel() {
                   key={index}
                 >
                   <div className="min-w-0 flex-1">
-                    <p
-                      className={`font-medium text-xs ${isEditing ? 'text-primary' : 'text-white'}`}
-                    >
-                      Hole {index + 1} {isEditing && '(Editing)'}
+                    <p className={`font-medium text-xs ${isEditing ? 'text-primary' : 'text-white'}`}>
+                      {t('properties.hole')} {index + 1} {isEditing && `(${t('properties.editing')})`}
                     </p>
                     <p className="text-[10px] text-muted-foreground">
                       {holeArea.toFixed(2)} m² · {hole.length} pts
@@ -172,7 +172,7 @@ export function SlabPanel() {
                     {isEditing ? (
                       <ActionButton
                         className="h-7 bg-primary text-primary-foreground hover:bg-primary/90"
-                        label="Done"
+                        label={t('properties.done')}
                         onClick={() => setEditingHole(null)}
                       />
                     ) : (
@@ -199,7 +199,7 @@ export function SlabPanel() {
             })}
           </div>
         ) : (
-          <div className="px-2 py-3 text-center text-muted-foreground text-xs">No holes</div>
+          <div className="px-2 py-3 text-center text-muted-foreground text-xs">{t('properties.noHoles')}</div>
         )}
 
         <div className="px-1 pt-1 pb-1">
@@ -207,7 +207,7 @@ export function SlabPanel() {
             className="w-full"
             disabled={editingHole?.nodeId === selectedId}
             icon={<Plus className="h-3.5 w-3.5" />}
-            label="Add Hole"
+            label={t('properties.addHole')}
             onClick={handleAddHole}
           />
         </div>
