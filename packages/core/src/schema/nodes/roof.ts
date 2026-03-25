@@ -12,6 +12,10 @@ export const RoofNode = BaseNode.extend({
   rotation: z.number().default(0),
   // Child roof segment IDs
   children: z.array(RoofSegmentNode.shape.id).default([]),
+  // Combined roof dimensions (calculated from segments)
+  length: z.number().default(0),
+  leftWidth: z.number().default(0),
+  rightWidth: z.number().default(0),
 }).describe(
   dedent`
   Roof node - a container for roof segments.

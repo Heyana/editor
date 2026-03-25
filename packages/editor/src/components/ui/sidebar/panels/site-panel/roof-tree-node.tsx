@@ -42,8 +42,11 @@ export function RoofTreeNode({ node, depth, isLast }: RoofTreeNodeProps) {
   }
 
   // Calculate dimensions: length × total width (leftWidth + rightWidth)
-  const totalWidth = node.leftWidth + node.rightWidth
-  const sizeLabel = `${node.length.toFixed(1)}×${totalWidth.toFixed(1)}m`
+  const length = node.length ?? 0
+  const leftWidth = node.leftWidth ?? 0
+  const rightWidth = node.rightWidth ?? 0
+  const totalWidth = leftWidth + rightWidth
+  const sizeLabel = `${length.toFixed(1)}×${totalWidth.toFixed(1)}m`
   const defaultName = `Roof (${sizeLabel})`
 
   return (

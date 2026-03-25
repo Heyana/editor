@@ -39,6 +39,7 @@ import {
 import { useEffect, useState } from 'react'
 import { create } from 'zustand'
 import { useShallow } from 'zustand/shallow'
+import { useTranslations } from 'next-intl'
 import { Dialog, DialogContent } from './../../../components/ui/primitives/dialog'
 import type { StructureTool } from './../../../store/use-editor'
 import useEditor from './../../../store/use-editor'
@@ -145,21 +146,22 @@ function OptionItem({
 }
 
 // ---------------------------------------------------------------------------
-// Sub-page label map
+// Sub-page label map (fallback for static labels)
 // ---------------------------------------------------------------------------
-const PAGE_LABEL: Record<string, string> = {
-  'wall-mode': 'Wall Mode',
-  'level-mode': 'Level Mode',
-  'rename-level': 'Rename Level',
-  'goto-level': 'Go to Level',
-  'camera-view': 'Camera Snapshot',
-  'camera-scope': '', // dynamic — overridden in breadcrumb
+const PAGE_LABEL_KEY: Record<string, string> = {
+  'wall-mode': 'editor.command.wallMode',
+  'level-mode': 'editor.command.levelMode',
+  'rename-level': 'editor.command.renameLevel',
+  'goto-level': 'editor.command.gotoLevel',
+  'camera-view': 'editor.command.cameraSnapshot',
+  'camera-scope': '',
 }
 
 // ---------------------------------------------------------------------------
 // Main component
 // ---------------------------------------------------------------------------
 export function CommandPalette() {
+  const t = useTranslations()
   const { open, setOpen } = useCommandPalette()
   const [meta, setMeta] = useState('⌘')
   const [isFullscreen, setIsFullscreen] = useState(false)
@@ -282,15 +284,15 @@ export function CommandPalette() {
   }
 
   const wallModeLabel: Record<'cutaway' | 'up' | 'down', string> = {
-    cutaway: 'Cutaway',
-    up: 'Up',
-    down: 'Down',
+    cutaway: t('editor.command.cutaway'),
+    up: t('editor.command.up'),
+    down: t('editor.command.down'),
   }
   const levelModeLabel: Record<'manual' | 'stacked' | 'exploded' | 'solo', string> = {
-    manual: 'Manual',
-    stacked: 'Stacked',
-    exploded: 'Exploded',
-    solo: 'Solo',
+    manual: t('editor.command.manual'),
+    stacked: t('editor.command.stacked'),
+    exploded: t('editor.command.exploded'),
+    solo: t('editor.command.solo'),
   }
 
   const deleteSelection = () => {
@@ -428,10 +430,10 @@ export function CommandPalette() {
               onValueChange={setInputValue}
               placeholder={
                 page === 'rename-level'
-                  ? 'Type a new name…'
+                  ? t('editor.command.typeNewName')
                   : page
-                    ? 'Filter options…'
-                    : 'Search actions…'
+                    ? t('editor.command.filterOptions')
+                    : t('editor.command.search')
               }
               value={inputValue}
             />
@@ -439,87 +441,87 @@ export function CommandPalette() {
 
           <Command.List className="max-h-100 overflow-y-auto p-1.5">
             <Command.Empty className="py-8 text-center text-muted-foreground text-sm">
-              No commands found.
+              {t('editor.command.noResults')}
             </Command.Empty>
 
             {/* ── Root view ─────────────────────────────────────────────── */}
             {!page && (
               <>
                 {/* Scene / Tools */}
-                <Command.Group heading="Scene">
+                <Command.Group heading={t('editor.command.scene')}>
                   <Item
                     icon={<Square className="h-4 w-4" />}
                     keywords={['draw', 'build', 'structure']}
-                    label="Wall Tool"
+                    label={t('editor.command.wallTool')}
                     onSelect={() => activateTool('wall')}
                   />
                   <Item
                     icon={<Layers className="h-4 w-4" />}
                     keywords={['floor', 'build']}
-                    label="Slab Tool"
+                    label={t('editor.command.slabTool')}
                     onSelect={() => activateTool('slab')}
                   />
                   <Item
                     icon={<Grid3X3 className="h-4 w-4" />}
                     keywords={['top', 'build']}
-                    label="Ceiling Tool"
+                    label={t('editor.command.ceilingTool')}
                     onSelect={() => activateTool('ceiling')}
                   />
                   <Item
                     icon={<DoorOpen className="h-4 w-4" />}
                     keywords={['opening', 'entrance']}
-                    label="Door Tool"
+                    label={t('editor.command.doorTool')}
                     onSelect={() => activateTool('door')}
                   />
                   <Item
                     icon={<AppWindow className="h-4 w-4" />}
                     keywords={['opening', 'glass']}
-                    label="Window Tool"
+                    label={t('editor.command.windowTool')}
                     onSelect={() => activateTool('window')}
                   />
                   <Item
                     icon={<Package className="h-4 w-4" />}
                     keywords={['furniture', 'object', 'asset', 'furnish']}
-                    label="Item Tool"
+                    label={t('editor.command.itemTool')}
                     onSelect={() => activateTool('item')}
                   />
                   <Item
                     icon={<Hexagon className="h-4 w-4" />}
                     keywords={['area', 'room', 'space']}
-                    label="Zone Tool"
+                    label={t('editor.command.zoneTool')}
                     onSelect={() => activateTool('zone')}
                   />
                   <Item
                     disabled={!hasSelection}
                     icon={<Trash2 className="h-4 w-4" />}
                     keywords={['remove', 'erase']}
-                    label="Delete Selection"
+                    label={t('editor.command.deleteSelection')}
                     onSelect={deleteSelection}
                     shortcut={['⌫']}
                   />
                 </Command.Group>
 
                 {/* Levels */}
-                <Command.Group heading="Levels">
+                <Command.Group heading={t('editor.command.levels')}>
                   <Item
                     disabled={allLevels.length === 0}
                     icon={<ArrowRight className="h-4 w-4" />}
                     keywords={['level', 'floor', 'go', 'navigate', 'switch', 'select']}
-                    label="Go to Level"
+                    label={t('editor.command.gotoLevel')}
                     navigate
                     onSelect={() => navigateTo('goto-level')}
                   />
                   <Item
                     icon={<Plus className="h-4 w-4" />}
                     keywords={['level', 'floor', 'add', 'create', 'new']}
-                    label="Add Level"
+                    label={t('editor.command.addLevel')}
                     onSelect={addLevel}
                   />
                   <Item
                     disabled={!activeLevelId}
                     icon={<PencilLine className="h-4 w-4" />}
                     keywords={['level', 'floor', 'rename', 'name']}
-                    label="Rename Level"
+                    label={t('editor.command.renameLevel')}
                     navigate
                     onSelect={() => navigateTo('rename-level')}
                   />
@@ -527,31 +529,31 @@ export function CommandPalette() {
                     disabled={!activeLevelId || isLevelZero}
                     icon={<Trash2 className="h-4 w-4" />}
                     keywords={['level', 'floor', 'delete', 'remove']}
-                    label="Delete Level"
+                    label={t('editor.command.deleteLevel')}
                     onSelect={deleteActiveLevel}
                   />
                 </Command.Group>
 
                 {/* Viewer Controls */}
-                <Command.Group heading="Viewer Controls">
+                <Command.Group heading={t('editor.command.viewerControls')}>
                   <Item
                     badge={wallModeLabel[wallMode]}
                     icon={<Layers className="h-4 w-4" />}
                     keywords={['wall', 'cutaway', 'up', 'down', 'view']}
-                    label="Wall Mode"
+                    label={t('editor.command.wallMode')}
                     onSelect={() => navigateTo('wall-mode')}
                   />
                   <Item
                     badge={levelModeLabel[levelMode]}
                     icon={<SquareStack className="h-4 w-4" />}
                     keywords={['level', 'floor', 'exploded', 'stacked', 'solo']}
-                    label="Level Mode"
+                    label={t('editor.command.levelMode')}
                     onSelect={() => navigateTo('level-mode')}
                   />
                   <Item
                     icon={<Video className="h-4 w-4" />}
                     keywords={['camera', 'ortho', 'perspective', '2d', '3d', 'view']}
-                    label={`Camera: Switch to ${cameraMode === 'perspective' ? 'Orthographic' : 'Perspective'}`}
+                    label={cameraMode === 'perspective' ? t('editor.command.switchToOrthographic') : t('editor.command.switchToPerspective')}
                     onSelect={() =>
                       run(() =>
                         setCameraMode(
@@ -565,26 +567,26 @@ export function CommandPalette() {
                       theme === 'dark' ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />
                     }
                     keywords={['theme', 'dark', 'light', 'appearance', 'color']}
-                    label={theme === 'dark' ? 'Switch to Light Theme' : 'Switch to Dark Theme'}
+                    label={theme === 'dark' ? t('editor.command.switchToLightTheme') : t('editor.command.switchToDarkTheme')}
                     onSelect={() => run(() => setTheme(theme === 'dark' ? 'light' : 'dark'))}
                   />
                   <Item
                     icon={<Camera className="h-4 w-4" />}
                     keywords={['camera', 'snapshot', 'capture', 'save', 'view', 'bookmark']}
-                    label="Camera Snapshot"
+                    label={t('editor.command.cameraSnapshot')}
                     navigate
                     onSelect={() => navigateTo('camera-view')}
                   />
                 </Command.Group>
 
                 {/* View / Mode */}
-                <Command.Group heading="View">
+                <Command.Group heading={t('editor.command.view')}>
                   <Item
                     icon={
                       isPreviewMode ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />
                     }
                     keywords={['preview', 'view', 'read-only', 'present']}
-                    label={isPreviewMode ? 'Exit Preview' : 'Enter Preview'}
+                    label={isPreviewMode ? t('editor.command.exitPreview') : t('editor.command.enterPreview')}
                     onSelect={() => run(() => setPreviewMode(!isPreviewMode))}
                   />
                   <Item
@@ -596,55 +598,55 @@ export function CommandPalette() {
                       )
                     }
                     keywords={['fullscreen', 'maximize', 'expand', 'window']}
-                    label={isFullscreen ? 'Exit Fullscreen' : 'Enter Fullscreen'}
+                    label={isFullscreen ? t('editor.command.exitFullscreen') : t('editor.command.enterFullscreen')}
                     onSelect={toggleFullscreen}
                   />
                 </Command.Group>
 
                 {/* History */}
-                <Command.Group heading="History">
+                <Command.Group heading={t('editor.command.history')}>
                   <Item
                     icon={<Undo2 className="h-4 w-4" />}
                     keywords={['undo', 'revert', 'back']}
-                    label="Undo"
+                    label={t('editor.command.undo')}
                     onSelect={() => run(() => useScene.temporal.getState().undo())}
                     shortcut={[meta, 'Z']}
                   />
                   <Item
                     icon={<Redo2 className="h-4 w-4" />}
                     keywords={['redo', 'forward', 'repeat']}
-                    label="Redo"
+                    label={t('editor.command.redo')}
                     onSelect={() => run(() => useScene.temporal.getState().redo())}
                     shortcut={[meta, '⇧', 'Z']}
                   />
                 </Command.Group>
 
                 {/* Export / Share */}
-                <Command.Group heading="Export & Share">
+                <Command.Group heading={t('editor.command.exportShare')}>
                   <Item
                     icon={<FileJson className="h-4 w-4" />}
                     keywords={['export', 'download', 'json', 'save', 'data']}
-                    label="Export Scene (JSON)"
+                    label={t('editor.command.exportJson')}
                     onSelect={exportJson}
                   />
                   {exportScene && (
                     <Item
                       icon={<Box className="h-4 w-4" />}
                       keywords={['export', 'glb', 'gltf', '3d', 'model', 'download']}
-                      label="Export 3D Model (GLB)"
+                      label={t('editor.command.exportGlb')}
                       onSelect={() => run(() => exportScene())}
                     />
                   )}
                   <Item
                     icon={<Copy className="h-4 w-4" />}
                     keywords={['share', 'copy', 'url', 'link']}
-                    label="Copy Share Link"
+                    label={t('editor.command.copyLink')}
                     onSelect={copyShareLink}
                   />
                   <Item
                     icon={<Camera className="h-4 w-4" />}
                     keywords={['screenshot', 'capture', 'image', 'photo', 'png']}
-                    label="Take Screenshot"
+                    label={t('editor.command.takeScreenshot')}
                     onSelect={takeScreenshot}
                   />
                 </Command.Group>
@@ -653,7 +655,7 @@ export function CommandPalette() {
 
             {/* ── Wall Mode sub-page ────────────────────────────────────── */}
             {page === 'wall-mode' && (
-              <Command.Group heading="Wall Mode">
+              <Command.Group heading={t('editor.command.wallMode')}>
                 {(['cutaway', 'up', 'down'] as const).map((mode) => (
                   <OptionItem
                     isActive={wallMode === mode}
@@ -667,7 +669,7 @@ export function CommandPalette() {
 
             {/* ── Level Mode sub-page ───────────────────────────────────── */}
             {page === 'level-mode' && (
-              <Command.Group heading="Level Mode">
+              <Command.Group heading={t('editor.command.levelMode')}>
                 {(['stacked', 'exploded', 'solo'] as const).map((mode) => (
                   <OptionItem
                     isActive={levelMode === mode}
@@ -681,7 +683,7 @@ export function CommandPalette() {
 
             {/* ── Go to Level sub-page ──────────────────────────────────── */}
             {page === 'goto-level' && (
-              <Command.Group heading="Go to Level">
+              <Command.Group heading={t('editor.command.gotoLevel')}>
                 {allLevels.map((level) => (
                   <OptionItem
                     isActive={level.id === activeLevelId}
@@ -697,7 +699,7 @@ export function CommandPalette() {
 
             {/* ── Rename Level sub-page ─────────────────────────────────── */}
             {page === 'rename-level' && (
-              <Command.Group heading="Rename Level">
+              <Command.Group heading={t('editor.command.renameLevel')}>
                 <Command.Item
                   className="flex cursor-pointer items-center gap-2.5 rounded-md px-2.5 py-2 text-foreground text-sm transition-colors data-[disabled=true]:cursor-not-allowed data-[selected=true]:bg-accent data-[disabled=true]:opacity-40"
                   disabled={!inputValue.trim()}
@@ -722,41 +724,41 @@ export function CommandPalette() {
 
             {/* ── Camera Snapshot: scope picker ─────────────────────────── */}
             {page === 'camera-view' && (
-              <Command.Group heading="Camera Snapshot — Select Scope">
+              <Command.Group heading={t('editor.command.selectScope')}>
                 <OptionItem
                   icon={<Map className="h-4 w-4" />}
-                  label="Site"
+                  label={t('editor.command.site')}
                   onSelect={() => {
                     const { rootNodeIds } = useScene.getState()
                     const siteId = rootNodeIds[0]
-                    if (siteId) navigateToCameraScope(siteId, 'Site')
+                    if (siteId) navigateToCameraScope(siteId, t('editor.command.site'))
                   }}
                 />
                 <OptionItem
                   icon={<Building2 className="h-4 w-4" />}
-                  label="Building"
+                  label={t('editor.command.building')}
                   onSelect={() => {
                     const building = Object.values(useScene.getState().nodes).find(
                       (n) => n.type === 'building',
                     )
-                    if (building) navigateToCameraScope(building.id, 'Building')
+                    if (building) navigateToCameraScope(building.id, t('editor.command.building'))
                   }}
                 />
                 <OptionItem
                   disabled={!activeLevelId}
                   icon={<Layers className="h-4 w-4" />}
-                  label="Level"
+                  label={t('editor.command.level')}
                   onSelect={() => {
-                    if (activeLevelId) navigateToCameraScope(activeLevelId, 'Level')
+                    if (activeLevelId) navigateToCameraScope(activeLevelId, t('editor.command.level'))
                   }}
                 />
                 <OptionItem
                   disabled={!hasSelection}
                   icon={<MousePointer2 className="h-4 w-4" />}
-                  label="Selection"
+                  label={t('editor.command.selection')}
                   onSelect={() => {
                     const firstId = selection.selectedIds[0]
-                    if (firstId) navigateToCameraScope(firstId, 'Selection')
+                    if (firstId) navigateToCameraScope(firstId, t('editor.command.selection'))
                   }}
                 />
               </Command.Group>
@@ -764,23 +766,23 @@ export function CommandPalette() {
 
             {/* ── Camera Snapshot: actions for selected scope ───────────── */}
             {page === 'camera-scope' && cameraScope && (
-              <Command.Group heading={`${cameraScope.label} Snapshot`}>
+              <Command.Group heading={t('editor.command.snapshotFor', { label: cameraScope.label })}>
                 <OptionItem
                   icon={<Camera className="h-4 w-4" />}
-                  label={hasScopeSnapshot ? 'Update Snapshot' : 'Take Snapshot'}
+                  label={hasScopeSnapshot ? t('editor.command.updateSnapshot') : t('editor.command.takeSnapshot')}
                   onSelect={takeSnapshot}
                 />
                 {hasScopeSnapshot && (
                   <OptionItem
                     icon={<Eye className="h-4 w-4" />}
-                    label="View Snapshot"
+                    label={t('editor.command.viewSnapshot')}
                     onSelect={viewSnapshot}
                   />
                 )}
                 {hasScopeSnapshot && (
                   <OptionItem
                     icon={<Trash2 className="h-4 w-4" />}
-                    label="Clear Snapshot"
+                    label={t('editor.command.clearSnapshot')}
                     onSelect={clearSnapshot}
                   />
                 )}
@@ -791,18 +793,18 @@ export function CommandPalette() {
           {/* Footer hint */}
           <div className="flex items-center justify-between border-border/50 border-t px-3 py-2">
             <span className="text-[11px] text-muted-foreground">
-              <Shortcut keys={['↑', '↓']} /> navigate
+              <Shortcut keys={['↑', '↓']} /> {t('editor.command.navigate')}
             </span>
             <span className="text-[11px] text-muted-foreground">
-              <Shortcut keys={['↵']} /> select
+              <Shortcut keys={['↵']} /> {t('editor.command.select')}
             </span>
             {page ? (
               <span className="text-[11px] text-muted-foreground">
-                <Shortcut keys={['⌫']} /> back
+                <Shortcut keys={['⌫']} /> {t('editor.command.back')}
               </span>
             ) : (
               <span className="text-[11px] text-muted-foreground">
-                <Shortcut keys={['Esc']} /> close
+                <Shortcut keys={['Esc']} /> {t('editor.command.close')}
               </span>
             )}
           </div>

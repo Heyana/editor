@@ -47,7 +47,7 @@ export function DoorPanel() {
   const handleFlip = useCallback(() => {
     if (!node) return
     handleUpdate({
-      side: node.side === 'front' ? 'back' : 'front',
+      side: node.side === 'front' ? 'back' : node.side === 'back' ? 'front' : 'front',
       rotation: [node.rotation[0], node.rotation[1] + Math.PI, node.rotation[2]],
     })
   }, [node, handleUpdate])
@@ -177,7 +177,7 @@ export function DoorPanel() {
     <PanelWrapper
       icon="/icons/door.png"
       onClose={handleClose}
-      title={node.name || 'Door'}
+      title={node.name || t('editor.tools.door')}
       width={320}
     >
       {/* Presets strip */}
@@ -196,12 +196,12 @@ export function DoorPanel() {
         >
           <button className="flex w-full items-center gap-2 rounded-lg border border-border/50 bg-[#2C2C2E] px-3 py-2 font-medium text-muted-foreground text-xs transition-colors hover:bg-[#3e3e3e] hover:text-foreground">
             <BookMarked className="h-3.5 w-3.5 shrink-0" />
-            <span>Presets</span>
+            <span>{t('properties.presets')}</span>
           </button>
         </PresetsPopover>
       </div>
 
-      <PanelSection title="Position">
+      <PanelSection title={t('properties.position')}>
         <SliderControl
           label={
             <>
@@ -220,15 +220,15 @@ export function DoorPanel() {
           <ActionButton
             className="w-full"
             icon={<FlipHorizontal2 className="h-4 w-4" />}
-            label="Flip Side"
+            label={t('properties.flipSide')}
             onClick={handleFlip}
           />
         </div>
       </PanelSection>
 
-      <PanelSection title="Dimensions">
+      <PanelSection title={t('properties.dimensions')}>
         <SliderControl
-          label="Width"
+          label={t('properties.width')}
           max={3}
           min={0.5}
           onChange={(v) => handleUpdate({ width: v })}
@@ -238,7 +238,7 @@ export function DoorPanel() {
           value={Math.round(node.width * 100) / 100}
         />
         <SliderControl
-          label="Height"
+          label={t('properties.height')}
           max={4}
           min={1.0}
           onChange={(v) =>
@@ -251,9 +251,9 @@ export function DoorPanel() {
         />
       </PanelSection>
 
-      <PanelSection title="Frame">
+      <PanelSection title={t('properties.frame')}>
         <SliderControl
-          label="Thickness"
+          label={t('properties.thickness')}
           max={0.2}
           min={0.01}
           onChange={(v) => handleUpdate({ frameThickness: v })}
@@ -263,7 +263,7 @@ export function DoorPanel() {
           value={Math.round(node.frameThickness * 1000) / 1000}
         />
         <SliderControl
-          label="Depth"
+          label={t('properties.depth')}
           max={0.3}
           min={0.01}
           onChange={(v) => handleUpdate({ frameDepth: v })}
@@ -274,9 +274,9 @@ export function DoorPanel() {
         />
       </PanelSection>
 
-      <PanelSection title="Content Padding">
+      <PanelSection title={t('properties.contentPadding')}>
         <SliderControl
-          label="Horizontal"
+          label={t('properties.horizontal')}
           max={0.2}
           min={0}
           onChange={(v) => handleUpdate({ contentPadding: [v, node.contentPadding[1]] })}
@@ -286,7 +286,7 @@ export function DoorPanel() {
           value={Math.round(node.contentPadding[0] * 1000) / 1000}
         />
         <SliderControl
-          label="Vertical"
+          label={t('properties.vertical')}
           max={0.2}
           min={0}
           onChange={(v) => handleUpdate({ contentPadding: [node.contentPadding[0], v] })}
@@ -297,30 +297,30 @@ export function DoorPanel() {
         />
       </PanelSection>
 
-      <PanelSection title="Swing">
+      <PanelSection title={t('properties.swing')}>
         <div className="flex flex-col gap-2 px-1 pb-1">
           <div className="space-y-1">
             <span className="font-medium text-[10px] text-muted-foreground/80 uppercase tracking-wider">
-              Hinges Side
+              {t('properties.hingesSide')}
             </span>
             <SegmentedControl
               onChange={(v) => handleUpdate({ hingesSide: v })}
               options={[
-                { label: 'Left', value: 'left' },
-                { label: 'Right', value: 'right' },
+                { label: t('properties.left'), value: 'left' },
+                { label: t('properties.right'), value: 'right' },
               ]}
               value={node.hingesSide}
             />
           </div>
           <div className="space-y-1">
             <span className="font-medium text-[10px] text-muted-foreground/80 uppercase tracking-wider">
-              Direction
+              {t('properties.direction')}
             </span>
             <SegmentedControl
               onChange={(v) => handleUpdate({ swingDirection: v })}
               options={[
-                { label: 'Inward', value: 'inward' },
-                { label: 'Outward', value: 'outward' },
+                { label: t('properties.inward'), value: 'inward' },
+                { label: t('properties.outward'), value: 'outward' },
               ]}
               value={node.swingDirection}
             />
@@ -328,16 +328,16 @@ export function DoorPanel() {
         </div>
       </PanelSection>
 
-      <PanelSection title="Threshold">
+      <PanelSection title={t('properties.threshold')}>
         <ToggleControl
           checked={node.threshold}
-          label="Enable Threshold"
+          label={t('properties.enableThreshold')}
           onChange={(checked) => handleUpdate({ threshold: checked })}
         />
         {node.threshold && (
           <div className="mt-1 flex flex-col gap-1">
             <SliderControl
-              label="Height"
+              label={t('properties.height')}
               max={0.1}
               min={0.005}
               onChange={(v) => handleUpdate({ thresholdHeight: v })}
@@ -350,16 +350,16 @@ export function DoorPanel() {
         )}
       </PanelSection>
 
-      <PanelSection title="Handle">
+      <PanelSection title={t('properties.handle')}>
         <ToggleControl
           checked={node.handle}
-          label="Enable Handle"
+          label={t('properties.enableHandle')}
           onChange={(checked) => handleUpdate({ handle: checked })}
         />
         {node.handle && (
           <div className="mt-1 flex flex-col gap-1">
             <SliderControl
-              label="Height"
+              label={t('properties.height')}
               max={node.height - 0.1}
               min={0.5}
               onChange={(v) => handleUpdate({ handleHeight: v })}
@@ -370,13 +370,13 @@ export function DoorPanel() {
             />
             <div className="space-y-1">
               <span className="font-medium text-[10px] text-muted-foreground/80 uppercase tracking-wider">
-                Handle Side
+                {t('properties.handleSide')}
               </span>
               <SegmentedControl
                 onChange={(v) => handleUpdate({ handleSide: v })}
                 options={[
-                  { label: 'Left', value: 'left' },
-                  { label: 'Right', value: 'right' },
+                  { label: t('properties.left'), value: 'left' },
+                  { label: t('properties.right'), value: 'right' },
                 ]}
                 value={node.handleSide}
               />
@@ -385,21 +385,21 @@ export function DoorPanel() {
         )}
       </PanelSection>
 
-      <PanelSection title="Hardware">
+      <PanelSection title={t('properties.hardware')}>
         <ToggleControl
           checked={node.doorCloser}
-          label="Door Closer"
+          label={t('properties.doorCloser')}
           onChange={(checked) => handleUpdate({ doorCloser: checked })}
         />
         <ToggleControl
           checked={node.panicBar}
-          label="Panic Bar"
+          label={t('properties.panicBar')}
           onChange={(checked) => handleUpdate({ panicBar: checked })}
         />
         {node.panicBar && (
           <div className="mt-1 flex flex-col gap-1">
             <SliderControl
-              label="Bar Height"
+              label={t('properties.barHeight')}
               max={node.height - 0.1}
               min={0.5}
               onChange={(v) => handleUpdate({ panicBarHeight: v })}
@@ -420,7 +420,7 @@ export function DoorPanel() {
           return (
             <div className="mb-2 flex flex-col gap-1" key={i}>
               <div className="flex items-center justify-between pb-1">
-                <span className="font-medium text-white/80 text-xs">Segment {i + 1}</span>
+                <span className="font-medium text-white/80 text-xs">{t('properties.segmentN', { n: i + 1 })}</span>
               </div>
 
               <SegmentedControl
@@ -429,15 +429,15 @@ export function DoorPanel() {
                   handleUpdate({ segments: updated })
                 }}
                 options={[
-                  { label: 'Panel', value: 'panel' },
-                  { label: 'Glass', value: 'glass' },
-                  { label: 'Empty', value: 'empty' },
+                  { label: t('properties.panel'), value: 'panel' },
+                  { label: t('properties.glass'), value: 'glass' },
+                  { label: t('properties.empty'), value: 'empty' },
                 ]}
                 value={seg.type}
               />
 
               <SliderControl
-                label="Height"
+                label={t('properties.height')}
                 max={95}
                 min={5}
                 onChange={(v) => setSegmentHeightRatio(i, v / 100)}
@@ -448,7 +448,7 @@ export function DoorPanel() {
               />
 
               <SliderControl
-                label="Columns"
+                label={t('properties.columnsN')}
                 max={8}
                 min={1}
                 onChange={(v) => {
@@ -479,7 +479,7 @@ export function DoorPanel() {
                     />
                   ))}
                   <SliderControl
-                    label="Divider"
+                    label={t('properties.divider')}
                     max={0.1}
                     min={0.005}
                     onChange={(v) => {
@@ -499,7 +499,7 @@ export function DoorPanel() {
               {seg.type === 'panel' && (
                 <div className="mt-1 border-border/50 border-t pt-1">
                   <SliderControl
-                    label="Inset"
+                    label={t('properties.inset')}
                     max={0.1}
                     min={0}
                     onChange={(v) => {
@@ -514,7 +514,7 @@ export function DoorPanel() {
                     value={Math.round(seg.panelInset * 1000) / 1000}
                   />
                   <SliderControl
-                    label="Depth"
+                    label={t('properties.depth')}
                     max={0.1}
                     min={0}
                     onChange={(v) => {
@@ -536,7 +536,7 @@ export function DoorPanel() {
 
         <div className="flex gap-1.5 px-1 pt-1">
           <ActionButton
-            label="+ Add Segment"
+            label={t('properties.addSegment')}
             onClick={() => {
               const updated = [
                 ...node.segments,
@@ -555,25 +555,25 @@ export function DoorPanel() {
           {node.segments.length > 1 && (
             <ActionButton
               className="text-white/60 hover:text-white"
-              label="- Remove"
+              label={t('properties.remove')}
               onClick={() => handleUpdate({ segments: node.segments.slice(0, -1) })}
             />
           )}
         </div>
       </PanelSection>
 
-      <PanelSection title="Actions">
+      <PanelSection title={t('properties.actions')}>
         <ActionGroup>
-          <ActionButton icon={<Move className="h-3.5 w-3.5" />} label="Move" onClick={handleMove} />
+          <ActionButton icon={<Move className="h-3.5 w-3.5" />} label={t('editor.actions.move')} onClick={handleMove} />
           <ActionButton
             icon={<Copy className="h-3.5 w-3.5" />}
-            label="Duplicate"
+            label={t('editor.actions.duplicate')}
             onClick={handleDuplicate}
           />
           <ActionButton
             className="hover:bg-red-500/20"
             icon={<Trash2 className="h-3.5 w-3.5 text-red-400" />}
-            label="Delete"
+            label={t('common.delete')}
             onClick={handleDelete}
           />
         </ActionGroup>

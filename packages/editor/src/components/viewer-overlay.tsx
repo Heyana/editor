@@ -13,6 +13,7 @@ import { useViewer } from '@pascal-app/viewer'
 import { ArrowLeft, Camera, ChevronRight, Diamond, Layers, Layers2, Moon, Sun } from 'lucide-react'
 import { motion } from 'motion/react'
 import Link from 'next/link'
+import { useTranslations } from 'next-intl'
 import { cn } from '../lib/utils'
 import { ActionButton } from './ui/action-menu/action-button'
 import { TooltipProvider } from './ui/primitives/tooltip'
@@ -76,6 +77,7 @@ export const ViewerOverlay = ({
   canShowGuides = true,
   onBack,
 }: ViewerOverlayProps) => {
+  const t = useTranslations()
   const selection = useViewer((s) => s.selection)
   const nodes = useScene((s) => s.nodes)
   const showScans = useViewer((s) => s.showScans)
@@ -147,7 +149,7 @@ export const ViewerOverlay = ({
             )}
             <div className="min-w-0">
               <div className="truncate font-medium text-foreground text-sm">
-                {projectName || 'Untitled'}
+                {projectName || t('common.untitled')}
               </div>
               {owner?.username && (
                 <Link
@@ -168,7 +170,7 @@ export const ViewerOverlay = ({
                   className="text-muted-foreground transition-colors hover:text-foreground"
                   onClick={() => handleBreadcrumbClick('root')}
                 >
-                  Site
+                  {t('editor.site.propertyLine')}
                 </button>
 
                 {building && (
@@ -178,7 +180,7 @@ export const ViewerOverlay = ({
                       className={`truncate transition-colors ${level ? 'text-muted-foreground hover:text-foreground' : 'font-medium text-foreground'}`}
                       onClick={() => handleBreadcrumbClick('building')}
                     >
-                      {building.name || 'Building'}
+                      {building.name || t('editor.command.building')}
                     </button>
                   </>
                 )}
@@ -223,7 +225,7 @@ export const ViewerOverlay = ({
         {building && levels.length > 0 && (
           <div className="pointer-events-auto flex w-48 flex-col overflow-hidden rounded-2xl border border-border/40 bg-background/95 py-1 shadow-lg backdrop-blur-xl transition-colors duration-200 ease-out">
             <span className="px-3 py-2 font-medium text-[10px] text-muted-foreground uppercase tracking-wider">
-              Levels
+              {t('editor.layers.elements')}
             </span>
             <div className="flex flex-col">
               {levels.map((lvl) => {

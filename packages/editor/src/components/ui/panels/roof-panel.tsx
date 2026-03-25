@@ -3,6 +3,7 @@
 import { type AnyNode, type RoofNode, useScene } from '@pascal-app/core'
 import { useViewer } from '@pascal-app/viewer'
 import { useCallback } from 'react'
+import { useTranslations } from 'next-intl'
 import { ActionButton } from '../controls/action-button'
 import { MetricControl } from '../controls/metric-control'
 import { PanelSection } from '../controls/panel-section'
@@ -10,6 +11,7 @@ import { SliderControl } from '../controls/slider-control'
 import { PanelWrapper } from './panel-wrapper'
 
 export function RoofPanel() {
+  const t = useTranslations()
   const selectedIds = useViewer((s) => s.selection.selectedIds)
   const setSelection = useViewer((s) => s.setSelection)
   const nodes = useScene((s) => s.nodes)
@@ -38,12 +40,12 @@ export function RoofPanel() {
     <PanelWrapper
       icon="/icons/roof.png"
       onClose={handleClose}
-      title={node.name || 'Roof'}
+      title={node.name || t('properties.roof')}
       width={300}
     >
-      <PanelSection title="Dimensions">
+      <PanelSection title={t('properties.dimensions')}>
         <SliderControl
-          label="Length"
+          label={t('properties.length')}
           max={20}
           min={0.5}
           onChange={(v) => handleUpdate({ length: v })}
@@ -53,7 +55,7 @@ export function RoofPanel() {
           value={Math.round(node.length * 100) / 100}
         />
         <SliderControl
-          label="Height"
+          label={t('properties.height')}
           max={10}
           min={0.1}
           onChange={(v) => handleUpdate({ height: v })}
@@ -64,13 +66,13 @@ export function RoofPanel() {
         />
       </PanelSection>
 
-      <PanelSection title="Slope Widths">
+      <PanelSection title={t('properties.slopeWidths')}>
         <div className="flex items-center justify-between px-2 pb-2 font-medium text-[10px] text-muted-foreground/80 uppercase tracking-wider">
-          <span>Widths</span>
-          <span>Total: {totalWidth.toFixed(1)}m</span>
+          <span>{t('properties.widths')}</span>
+          <span>{t('properties.total')}: {totalWidth.toFixed(1)}m</span>
         </div>
         <SliderControl
-          label="Left"
+          label={t('common.left')}
           max={10}
           min={0.1}
           onChange={(v) => handleUpdate({ leftWidth: v })}
@@ -80,7 +82,7 @@ export function RoofPanel() {
           value={Math.round(node.leftWidth * 100) / 100}
         />
         <SliderControl
-          label="Right"
+          label={t('common.right')}
           max={10}
           min={0.1}
           onChange={(v) => handleUpdate({ rightWidth: v })}
@@ -91,7 +93,7 @@ export function RoofPanel() {
         />
       </PanelSection>
 
-      <PanelSection title="Rotation">
+      <PanelSection title={t('properties.rotation')}>
         <SliderControl
           label={
             <>
@@ -121,7 +123,7 @@ export function RoofPanel() {
         </div>
       </PanelSection>
 
-      <PanelSection title="Position">
+      <PanelSection title={t('properties.position')}>
         <SliderControl
           label={
             <>

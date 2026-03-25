@@ -345,7 +345,7 @@ export function usePlacementCoordinator(config: PlacementCoordinatorConfig): Rea
             const parentWall = useScene.getState().nodes[placementState.current.wallId as AnyNodeId]
             if (parentWall?.type === 'wall') {
               const wallThickness = (parentWall as WallNode).thickness ?? 0.1
-              mesh.position.z = (wallThickness / 2) * (draft.side === 'front' ? 1 : -1)
+              mesh.position.z = (wallThickness / 2) * (draft.side === 'front' ? 1 : -1) ?? 0
             }
           }
         }

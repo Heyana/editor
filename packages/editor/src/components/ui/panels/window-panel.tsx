@@ -48,7 +48,7 @@ export function WindowPanel() {
   const handleFlip = useCallback(() => {
     if (!node) return
     handleUpdate({
-      side: node.side === 'front' ? 'back' : 'front',
+      side: node.side === 'front' ? 'back' : node.side === 'back' ? 'front' : 'front',
       rotation: [node.rotation[0], node.rotation[1] + Math.PI, node.rotation[2]],
     })
   }, [node, handleUpdate])
@@ -180,7 +180,7 @@ export function WindowPanel() {
     <PanelWrapper
       icon="/icons/window.png"
       onClose={handleClose}
-      title={node.name || 'Window'}
+      title={node.name || t('editor.tools.window')}
       width={320}
     >
       {/* Presets strip */}
@@ -199,7 +199,7 @@ export function WindowPanel() {
         >
           <button className="flex w-full items-center gap-2 rounded-lg border border-border/50 bg-[#2C2C2E] px-3 py-2 font-medium text-muted-foreground text-xs transition-colors hover:bg-[#3e3e3e] hover:text-foreground">
             <BookMarked className="h-3.5 w-3.5 shrink-0" />
-            <span>Presets</span>
+            <span>{t('properties.presets')}</span>
           </button>
         </PresetsPopover>
       </div>
@@ -318,7 +318,7 @@ export function WindowPanel() {
         {numCols > 1 && (
           <div className="mt-2 flex flex-col gap-1">
             <div className="mb-1 px-1 font-medium text-[10px] text-muted-foreground/80 uppercase tracking-wider">
-              Col Widths
+              {t('properties.colWidths')}
             </div>
             {normCols.map((ratio, i) => (
               <SliderControl
@@ -351,7 +351,7 @@ export function WindowPanel() {
         {numRows > 1 && (
           <div className="mt-2 flex flex-col gap-1">
             <div className="mb-1 px-1 font-medium text-[10px] text-muted-foreground/80 uppercase tracking-wider">
-              Row Heights
+              {t('properties.rowHeights')}
             </div>
             {normRows.map((ratio, i) => (
               <SliderControl

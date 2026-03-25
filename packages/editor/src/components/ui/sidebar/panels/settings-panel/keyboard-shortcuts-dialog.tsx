@@ -1,5 +1,6 @@
 import { Keyboard } from 'lucide-react'
 import { useEffect, useState } from 'react'
+import { useTranslations } from 'next-intl'
 import { Button } from './../../../../../components/ui/primitives/button'
 import {
   Dialog,
@@ -10,15 +11,17 @@ import {
   DialogTrigger,
 } from './../../../../../components/ui/primitives/dialog'
 
-type Shortcut = {
-  keys: string[]
-  action: string
-  note?: string
+type ShortcutKey = string
+
+type ShortcutConfig = {
+  keys: ShortcutKey[]
+  actionKey: string
+  noteKey?: string
 }
 
-type ShortcutCategory = {
-  title: string
-  shortcuts: Shortcut[]
+type ShortcutCategoryConfig = {
+  titleKey: string
+  shortcuts: ShortcutConfig[]
 }
 
 const KEY_DISPLAY_MAP: Record<string, string> = {
@@ -29,80 +32,80 @@ const KEY_DISPLAY_MAP: Record<string, string> = {
   Space: '␣',
 }
 
-const SHORTCUT_CATEGORIES: ShortcutCategory[] = [
+const SHORTCUT_CATEGORIES: ShortcutCategoryConfig[] = [
   {
-    title: 'Editor Navigation',
+    titleKey: 'properties.editorNavigation',
     shortcuts: [
-      { keys: ['1'], action: 'Switch to Site phase' },
-      { keys: ['2'], action: 'Switch to Structure phase' },
-      { keys: ['3'], action: 'Switch to Furnish phase' },
-      { keys: ['S'], action: 'Switch to Structure layer' },
-      { keys: ['F'], action: 'Switch to Furnish layer' },
-      { keys: ['Z'], action: 'Switch to Zones layer' },
+      { keys: ['1'], actionKey: 'properties.switchToSitePhase' },
+      { keys: ['2'], actionKey: 'properties.switchToStructurePhase' },
+      { keys: ['3'], actionKey: 'properties.switchToFurnishPhase' },
+      { keys: ['S'], actionKey: 'properties.switchToStructureLayer' },
+      { keys: ['F'], actionKey: 'properties.switchToFurnishLayer' },
+      { keys: ['Z'], actionKey: 'properties.switchToZonesLayer' },
       {
         keys: ['Cmd/Ctrl', 'Arrow Up'],
-        action: 'Select next level in the active building',
+        actionKey: 'properties.selectNextLevel',
       },
       {
         keys: ['Cmd/Ctrl', 'Arrow Down'],
-        action: 'Select previous level in the active building',
+        actionKey: 'properties.selectPrevLevel',
       },
-      { keys: ['Cmd/Ctrl', 'B'], action: 'Toggle sidebar' },
+      { keys: ['Cmd/Ctrl', 'B'], actionKey: 'properties.toggleSidebar' },
     ],
   },
   {
-    title: 'Modes & History',
+    titleKey: 'properties.modesHistory',
     shortcuts: [
-      { keys: ['V'], action: 'Switch to Select mode' },
-      { keys: ['B'], action: 'Switch to Build mode' },
+      { keys: ['V'], actionKey: 'properties.switchToSelectMode' },
+      { keys: ['B'], actionKey: 'properties.switchToBuildMode' },
       {
         keys: ['Esc'],
-        action: 'Cancel active tool, clear selection, and exit build mode',
+        actionKey: 'properties.cancelToolClearSelection',
       },
-      { keys: ['Delete / Backspace'], action: 'Delete selected objects' },
-      { keys: ['Cmd/Ctrl', 'Z'], action: 'Undo' },
-      { keys: ['Cmd/Ctrl', 'Shift', 'Z'], action: 'Redo' },
+      { keys: ['Delete / Backspace'], actionKey: 'properties.deleteSelected' },
+      { keys: ['Cmd/Ctrl', 'Z'], actionKey: 'properties.undo' },
+      { keys: ['Cmd/Ctrl', 'Shift', 'Z'], actionKey: 'properties.redo' },
     ],
   },
   {
-    title: 'Selection',
+    titleKey: 'properties.selection',
     shortcuts: [
       {
         keys: ['Cmd/Ctrl', 'Click'],
-        action: 'Add or remove an object from multi-selection',
-        note: 'Works while in Select mode.',
+        actionKey: 'properties.addRemoveMultiSelect',
+        noteKey: 'properties.multiSelectNote',
       },
     ],
   },
   {
-    title: 'Drawing Tools',
+    titleKey: 'properties.drawingTools',
     shortcuts: [
       {
         keys: ['Shift'],
-        action: 'Temporarily disable angle snapping while drawing walls, slabs, and ceilings',
-        note: 'Hold while drawing.',
+        actionKey: 'properties.disableAngleSnapping',
+        noteKey: 'properties.disableAngleSnappingNote',
       },
     ],
   },
   {
-    title: 'Item Placement',
+    titleKey: 'properties.itemPlacement',
     shortcuts: [
-      { keys: ['R'], action: 'Rotate item clockwise by 90 degrees' },
-      { keys: ['T'], action: 'Rotate item counter-clockwise by 90 degrees' },
+      { keys: ['R'], actionKey: 'properties.rotateCW90' },
+      { keys: ['T'], actionKey: 'properties.rotateCCW90' },
       {
         keys: ['Shift'],
-        action: 'Temporarily bypass placement validation constraints',
-        note: 'Hold while placing.',
+        actionKey: 'properties.bypassValidation',
+        noteKey: 'properties.bypassValidationNote',
       },
     ],
   },
   {
-    title: 'Camera',
+    titleKey: 'properties.camera',
     shortcuts: [
       {
         keys: ['Space', 'Drag'],
-        action: 'Pan camera',
-        note: 'Hold Space while dragging with the mouse.',
+        actionKey: 'properties.panCamera',
+        noteKey: 'properties.panCameraNote',
       },
     ],
   },
@@ -139,37 +142,38 @@ function ShortcutKeys({ keys }: { keys: string[] }) {
 }
 
 export function KeyboardShortcutsDialog() {
+  const t = useTranslations()
   return (
     <Dialog>
       <DialogTrigger asChild>
         <Button className="w-full justify-start gap-2" variant="outline">
           <Keyboard className="size-4" />
-          Keyboard Shortcuts
+          {t('properties.keyboardShortcuts')}
         </Button>
       </DialogTrigger>
       <DialogContent className="flex max-h-[85vh] flex-col overflow-hidden p-0 sm:max-w-3xl">
         <DialogHeader className="shrink-0 border-b px-6 py-4">
-          <DialogTitle>Keyboard Shortcuts</DialogTitle>
+          <DialogTitle>{t('properties.keyboardShortcuts')}</DialogTitle>
           <DialogDescription>
-            Shortcuts are context-aware and depend on the current phase or tool.
+            {t('properties.shortcutsContextAware')}
           </DialogDescription>
         </DialogHeader>
 
         <div className="flex-1 space-y-5 overflow-y-auto px-6 py-4">
           {SHORTCUT_CATEGORIES.map((category) => (
-            <section className="space-y-2" key={category.title}>
-              <h3 className="font-medium text-sm">{category.title}</h3>
+            <section className="space-y-2" key={category.titleKey}>
+              <h3 className="font-medium text-sm">{t(category.titleKey)}</h3>
               <div className="overflow-hidden rounded-md border border-border/80">
                 {category.shortcuts.map((shortcut, index) => (
                   <div
                     className="grid grid-cols-[minmax(130px,220px)_1fr] gap-3 px-3 py-2"
-                    key={`${category.title}-${shortcut.action}`}
+                    key={`${category.titleKey}-${shortcut.actionKey}`}
                   >
                     <ShortcutKeys keys={shortcut.keys} />
                     <div>
-                      <p className="text-sm">{shortcut.action}</p>
-                      {shortcut.note ? (
-                        <p className="text-muted-foreground text-xs">{shortcut.note}</p>
+                      <p className="text-sm">{t(shortcut.actionKey)}</p>
+                      {shortcut.noteKey ? (
+                        <p className="text-muted-foreground text-xs">{t(shortcut.noteKey)}</p>
                       ) : null}
                     </div>
                     {index < category.shortcuts.length - 1 ? (

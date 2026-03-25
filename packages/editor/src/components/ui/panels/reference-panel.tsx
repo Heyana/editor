@@ -3,6 +3,7 @@
 import { type AnyNode, type GuideNode, type ScanNode, useScene } from '@pascal-app/core'
 import { Box, Image as ImageIcon } from 'lucide-react'
 import { useCallback } from 'react'
+import { useTranslations } from 'next-intl'
 import useEditor from '../../../store/use-editor'
 import { ActionButton, ActionGroup } from '../controls/action-button'
 import { MetricControl } from '../controls/metric-control'
@@ -13,6 +14,7 @@ import { PanelWrapper } from './panel-wrapper'
 type ReferenceNode = ScanNode | GuideNode
 
 export function ReferencePanel() {
+  const t = useTranslations()
   const selectedReferenceId = useEditor((s) => s.selectedReferenceId)
   const setSelectedReferenceId = useEditor((s) => s.setSelectedReferenceId)
   const nodes = useScene((s) => s.nodes)
@@ -42,10 +44,10 @@ export function ReferencePanel() {
     <PanelWrapper
       icon={isScan ? undefined : undefined}
       onClose={handleClose}
-      title={node.name || (isScan ? '3D Scan' : 'Guide Image')}
+      title={node.name || (isScan ? t('properties.3dScan') : t('properties.guideImage'))}
       width={300}
     >
-      <PanelSection title="Position">
+      <PanelSection title={t('properties.position')}>
         <SliderControl
           label={
             <>
@@ -102,7 +104,7 @@ export function ReferencePanel() {
         />
       </PanelSection>
 
-      <PanelSection title="Rotation">
+      <PanelSection title={t('properties.rotation')}>
         <SliderControl
           label={
             <>
@@ -142,7 +144,7 @@ export function ReferencePanel() {
         </div>
       </PanelSection>
 
-      <PanelSection title="Scale & Opacity">
+      <PanelSection title={t('properties.scaleOpacity')}>
         <SliderControl
           label={
             <>
@@ -162,7 +164,7 @@ export function ReferencePanel() {
         />
 
         <SliderControl
-          label="Opacity"
+          label={t('properties.opacity')}
           max={100}
           min={0}
           onChange={(v) => handleUpdate({ opacity: v })}

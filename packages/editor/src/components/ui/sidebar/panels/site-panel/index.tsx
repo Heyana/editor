@@ -28,6 +28,7 @@ import {
 } from 'lucide-react'
 import { AnimatePresence, LayoutGroup, motion } from 'motion/react'
 import { useEffect, useRef, useState } from 'react'
+import { useTranslations } from 'next-intl'
 import { ColorDot } from './../../../../../components/ui/primitives/color-dot'
 import {
   Popover,
@@ -80,6 +81,7 @@ function useSiteNode(): SiteNode | null {
 }
 
 function PropertyLineSection() {
+  const t = useTranslations('editor')
   const siteNode = useSiteNode()
   const updateNode = useScene((state) => state.updateNode)
   const mode = useEditor((state) => state.mode)
@@ -139,7 +141,7 @@ function PropertyLineSection() {
 
         <div className="flex items-center gap-2">
           <Pentagon className="h-4 w-4 text-muted-foreground" />
-          <span className="font-medium text-sm">Property Line</span>
+          <span className="font-medium text-sm">{t('site.propertyLine')}</span>
         </div>
         <button
           className={cn(
@@ -157,10 +159,10 @@ function PropertyLineSection() {
       {/* Measurements */}
       <div className="relative flex gap-3 pr-3 pb-2 pl-10">
         <div className="text-muted-foreground text-xs">
-          Area: <span className="text-foreground">{area.toFixed(1)} m²</span>
+          {t('site.area')}: <span className="text-foreground">{area.toFixed(1)} m²</span>
         </div>
         <div className="text-muted-foreground text-xs">
-          Perimeter: <span className="text-foreground">{perimeter.toFixed(1)} m</span>
+          {t('site.perimeter')}: <span className="text-foreground">{perimeter.toFixed(1)} m</span>
         </div>
       </div>
 
@@ -211,7 +213,7 @@ function PropertyLineSection() {
             onClick={handleAddPoint}
           >
             <Plus className="h-3 w-3" />
-            Add point
+            {t('site.addPoint')}
           </button>
         </div>
       )}
@@ -236,6 +238,7 @@ function CameraPopover({
   onOpenChange: (open: boolean) => void
   buttonClassName?: string
 }) {
+  const t = useTranslations('editor')
   const updateNode = useScene((state) => state.updateNode)
   return (
     <Popover onOpenChange={onOpenChange} open={open}>
@@ -246,7 +249,7 @@ function CameraPopover({
             buttonClassName,
           )}
           onClick={(e) => e.stopPropagation()}
-          title="Camera snapshot"
+          title={t('command.cameraSnapshot')}
         >
           <Camera className="h-3.5 w-3.5" />
           {hasCamera && (
@@ -271,7 +274,7 @@ function CameraPopover({
               }}
             >
               <Camera className="h-3.5 w-3.5" />
-              View snapshot
+              {t('site.viewSnapshot')}
             </button>
           )}
           <button
@@ -283,7 +286,7 @@ function CameraPopover({
             }}
           >
             <Camera className="h-3.5 w-3.5" />
-            {hasCamera ? 'Update snapshot' : 'Take snapshot'}
+            {hasCamera ? t('site.updateSnapshot') : t('site.takeSnapshot')}
           </button>
           {hasCamera && (
             <button
@@ -295,7 +298,7 @@ function CameraPopover({
               }}
             >
               <Trash2 className="h-3.5 w-3.5" />
-              Clear snapshot
+              {t('site.clearSnapshot')}
             </button>
           )}
         </div>
@@ -315,6 +318,7 @@ function ReferenceItem({
   setSelectedReferenceId: (id: string) => void
   handleDelete: (id: string, e: React.MouseEvent) => void
 }) {
+  const t = useTranslations('editor')
   const [isEditing, setIsEditing] = useState(false)
 
   return (
@@ -350,7 +354,7 @@ function ReferenceItem({
           />
         )}
         <InlineRenameInput
-          defaultName={refNode.type === 'scan' ? '3D Scan' : 'Guide Image'}
+          defaultName={refNode.type === 'scan' ? t('site.3dScan') : t('site.guideImage')}
           isEditing={isEditing}
           node={refNode}
           onStartEditing={() => setIsEditing(true)}
@@ -361,7 +365,7 @@ function ReferenceItem({
       <button
         className="z-20 flex h-5 w-5 shrink-0 cursor-pointer items-center justify-center rounded-md text-muted-foreground opacity-0 transition-colors hover:bg-black/5 hover:text-foreground group-hover/ref:opacity-100 dark:hover:bg-white/10"
         onClick={(e) => handleDelete(refNode.id, e)}
-        title="Delete"
+        title={t('common.delete')}
       >
         <Trash2 className="h-3 w-3" />
       </button>
@@ -386,6 +390,7 @@ function LevelReferences({
   onUploadAsset,
   onDeleteAsset,
 }: LevelReferencesProps) {
+  const t = useTranslations('editor')
   const nodes = useScene((s) => s.nodes)
   const deleteNode = useScene((s) => s.deleteNode)
   const setSelectedReferenceId = useEditor((s) => s.setSelectedReferenceId)
@@ -504,7 +509,7 @@ function LevelReferences({
                 ) : (
                   <Plus className="h-3.5 w-3.5" />
                 )}
-                {uploading ? `Uploading ${uploadingType}... ${progress}%` : 'Upload scan/floorplan'}
+                {uploading ? t('site.uploading', { type: uploadingType ?? '', progress: progress.toString() }) : t('site.uploadScan')}
               </button>
 
               <input
@@ -564,6 +569,7 @@ function LevelItem({
   onUploadAsset?: (projectId: string, levelId: string, file: File, type: 'scan' | 'guide') => void
   onDeleteAsset?: (projectId: string, url: string) => void
 }) {
+  const t = useTranslations('editor')
   const [cameraPopoverOpen, setCameraPopoverOpen] = useState(false)
   const [isEditing, setIsEditing] = useState(false)
   const itemRef = useRef<HTMLDivElement>(null)
@@ -663,7 +669,7 @@ function LevelItem({
                   : 'text-muted-foreground hover:bg-accent hover:text-foreground',
               )}
               onClick={(e) => e.stopPropagation()}
-              title="Camera snapshot"
+              title={t('command.cameraSnapshot')}
             >
               <Camera className="h-3.5 w-3.5" />
               {level.camera && (
@@ -688,7 +694,7 @@ function LevelItem({
                   }}
                 >
                   <Camera className="h-3.5 w-3.5" />
-                  View snapshot
+                  {t('site.viewSnapshot')}
                 </button>
               )}
               <button
@@ -700,7 +706,7 @@ function LevelItem({
                 }}
               >
                 <Camera className="h-3.5 w-3.5" />
-                {level.camera ? 'Update snapshot' : 'Take snapshot'}
+                {level.camera ? t('site.updateSnapshot') : t('site.takeSnapshot')}
               </button>
               {level.camera && (
                 <button
@@ -712,7 +718,7 @@ function LevelItem({
                   }}
                 >
                   <Trash2 className="h-3.5 w-3.5" />
-                  Clear snapshot
+                  {t('site.clearSnapshot')}
                 </button>
               )}
             </div>
@@ -739,7 +745,7 @@ function LevelItem({
                 onClick={() => deleteNode(level.id)}
               >
                 <Trash2 className="h-3.5 w-3.5" />
-                Delete
+                {t('common.delete')}
               </button>
             )}
           </PopoverContent>
@@ -777,6 +783,7 @@ function LevelsSection({
   onUploadAsset?: (projectId: string, levelId: string, file: File, type: 'scan' | 'guide') => void
   onDeleteAsset?: (projectId: string, url: string) => void
 } = {}) {
+  const t = useTranslations('editor')
   const nodes = useScene((state) => state.nodes)
   const createNode = useScene((state) => state.createNode)
   const updateNode = useScene((state) => state.updateNode)
@@ -819,7 +826,7 @@ function LevelsSection({
           <div className="relative z-10 flex items-center pr-1 pl-[38px]">
             <Plus className="h-3.5 w-3.5" />
           </div>
-          <span className="truncate">Add level</span>
+          <span className="truncate">{t('site.addLevel')}</span>
         </button>
         {levels.length === 0 && (
           <div className="relative flex h-8 select-none items-center border-border/50 border-b py-0 pr-2 pl-[38px] text-muted-foreground text-xs">
@@ -827,7 +834,7 @@ function LevelsSection({
             <div className="pointer-events-none absolute top-0 bottom-1/2 left-[21px] w-px bg-border/50" />
             {/* Horizontal branch line */}
             <div className="pointer-events-none absolute top-1/2 left-[21px] h-px w-[11px] bg-border/50" />
-            No levels yet
+            {t('site.noLevels')}
           </div>
         )}
         {[...levels].reverse().map((level, index) => (
@@ -850,6 +857,7 @@ function LevelsSection({
 }
 
 function LayerToggle() {
+  const t = useTranslations('editor')
   const structureLayer = useEditor((state) => state.structureLayer)
   const setStructureLayer = useEditor((state) => state.setStructureLayer)
   const phase = useEditor((state) => state.phase)
@@ -894,7 +902,7 @@ function LayerToggle() {
             )}
             src="/icons/room.png"
           />
-          Structure
+          {t('site.structure')}
         </div>
         <div className="absolute right-1.5 bottom-1 z-10 rounded border border-border/40 bg-background/40 px-1 py-[2px] backdrop-blur-md">
           <span className="block font-medium font-mono text-[9px] text-muted-foreground/70 leading-none">
@@ -930,7 +938,7 @@ function LayerToggle() {
             )}
             src="/icons/couch.png"
           />
-          Furnish
+          {t('site.furnish')}
         </div>
         <div className="absolute right-1.5 bottom-1 z-10 rounded border border-border/40 bg-background/40 px-1 py-[2px] backdrop-blur-md">
           <span className="block font-medium font-mono text-[9px] text-muted-foreground/70 leading-none">
@@ -967,7 +975,7 @@ function LayerToggle() {
             )}
             src="/icons/kitchen.png"
           />
-          Zones
+          {t('site.zones')}
         </div>
         <div className="absolute right-1.5 bottom-1 z-10 rounded border border-border/40 bg-background/40 px-1 py-[2px] backdrop-blur-md">
           <span className="block font-medium font-mono text-[9px] text-muted-foreground/70 leading-none">
@@ -980,6 +988,7 @@ function LayerToggle() {
 }
 
 function ZoneItem({ zone, isLast }: { zone: ZoneNode; isLast?: boolean }) {
+  const t = useTranslations('editor')
   const [isEditing, setIsEditing] = useState(false)
   const [cameraPopoverOpen, setCameraPopoverOpen] = useState(false)
   const deleteNode = useScene((state) => state.deleteNode)
@@ -1003,7 +1012,7 @@ function ZoneItem({ zone, isLast }: { zone: ZoneNode; isLast?: boolean }) {
   }, [isSelected])
 
   const area = calculatePolygonArea(zone.polygon).toFixed(1)
-  const defaultName = `Zone (${area}m²)`
+  const defaultName = t('properties.zoneWithArea', { area: area })
 
   const handleClick = () => {
     setSelection({ zoneId: zone.id })
@@ -1076,7 +1085,7 @@ function ZoneItem({ zone, isLast }: { zone: ZoneNode; isLast?: boolean }) {
             <button
               className="relative flex h-6 w-6 cursor-pointer items-center justify-center rounded-md text-muted-foreground opacity-0 transition-colors hover:bg-black/5 hover:text-foreground group-hover/row:opacity-100 dark:hover:bg-white/10"
               onClick={(e) => e.stopPropagation()}
-              title="Camera snapshot"
+              title={t('command.cameraSnapshot')}
             >
               <Camera className="h-3 w-3" />
               {zone.camera && (
@@ -1101,7 +1110,7 @@ function ZoneItem({ zone, isLast }: { zone: ZoneNode; isLast?: boolean }) {
                   }}
                 >
                   <Camera className="h-3.5 w-3.5" />
-                  View snapshot
+                  {t('site.viewSnapshot')}
                 </button>
               )}
               <button
@@ -1113,7 +1122,7 @@ function ZoneItem({ zone, isLast }: { zone: ZoneNode; isLast?: boolean }) {
                 }}
               >
                 <Camera className="h-3.5 w-3.5" />
-                {zone.camera ? 'Update snapshot' : 'Take snapshot'}
+                {zone.camera ? t('site.updateSnapshot') : t('site.takeSnapshot')}
               </button>
               {zone.camera && (
                 <button
@@ -1125,7 +1134,7 @@ function ZoneItem({ zone, isLast }: { zone: ZoneNode; isLast?: boolean }) {
                   }}
                 >
                   <Trash2 className="h-3.5 w-3.5" />
-                  Clear snapshot
+                  {t('site.clearSnapshot')}
                 </button>
               )}
             </div>
@@ -1143,6 +1152,7 @@ function ZoneItem({ zone, isLast }: { zone: ZoneNode; isLast?: boolean }) {
 }
 
 function MultiSelectionBadge() {
+  const t = useTranslations('editor')
   const selectedIds = useViewer((state) => state.selection.selectedIds)
   const setSelection = useViewer((state) => state.setSelection)
 
@@ -1151,11 +1161,11 @@ function MultiSelectionBadge() {
   return (
     <div className="pointer-events-none sticky top-4 z-50 flex h-0 w-full justify-center overflow-visible">
       <div className="pointer-events-auto flex items-center gap-2.5 rounded-full border border-primary/20 bg-primary px-0.5 py-4 pl-2 font-medium text-primary-foreground text-xs shadow-black/10 shadow-lg backdrop-blur-md">
-        <span>{selectedIds.length} objects selected</span>
+        <span>{t('properties.objectsSelected', { count: selectedIds.length.toString() })}</span>
         <button
           className="cursor-pointer rounded-full p-1.5 transition-colors hover:bg-primary-foreground/20"
           onClick={() => setSelection({ selectedIds: [] })}
-          title="Clear selection"
+          title={t('properties.clearSelection')}
         >
           <X className="h-4 w-4" />
         </button>
@@ -1165,6 +1175,7 @@ function MultiSelectionBadge() {
 }
 
 function ContentSection() {
+  const t = useTranslations('editor')
   const nodes = useScene((state) => state.nodes)
   const selectedLevelId = useViewer((state) => state.selection.levelId)
   const structureLayer = useEditor((state) => state.structureLayer)
@@ -1177,7 +1188,7 @@ function ContentSection() {
 
   if (!level) {
     return (
-      <div className="px-3 py-4 text-muted-foreground text-sm">Select a level to view content</div>
+      <div className="px-3 py-4 text-muted-foreground text-sm">{t('properties.selectLevelToView')}</div>
     )
   }
 
@@ -1196,9 +1207,9 @@ function ContentSection() {
     if (levelZones.length === 0) {
       return (
         <div className="px-3 py-4 text-muted-foreground text-sm">
-          No zones on this level.{' '}
+          {t('zone.noZones')}{' '}
           <button className="cursor-pointer text-primary hover:underline" onClick={handleAddZone}>
-            Add one
+            {t('zone.addOne')}
           </button>
         </div>
       )
@@ -1225,7 +1236,7 @@ function ContentSection() {
   })
 
   if (elementChildren.length === 0) {
-    return <div className="px-3 py-4 text-muted-foreground text-sm">No elements on this level</div>
+    return <div className="px-3 py-4 text-muted-foreground text-sm">{t('properties.noElements')}</div>
   }
 
   return (
@@ -1259,6 +1270,7 @@ function BuildingItem({
   onUploadAsset?: (projectId: string, levelId: string, file: File, type: 'scan' | 'guide') => void
   onDeleteAsset?: (projectId: string, url: string) => void
 }) {
+  const t = useTranslations('editor')
   const setSelection = useViewer((state) => state.setSelection)
   const phase = useEditor((state) => state.phase)
   const setPhase = useEditor((state) => state.setPhase)
@@ -1304,7 +1316,7 @@ function BuildingItem({
             )}
             src="/icons/building.png"
           />
-          <span className="truncate font-medium text-sm">{building.name || 'Building'}</span>
+          <span className="truncate font-medium text-sm">{building.name || t('command.building')}</span>
         </button>
         <Popover
           onOpenChange={(open) => setBuildingCameraOpen(open ? building.id : null)}
@@ -1319,7 +1331,7 @@ function BuildingItem({
                   : 'text-muted-foreground hover:bg-accent hover:text-foreground',
               )}
               onClick={(e) => e.stopPropagation()}
-              title="Camera snapshot"
+              title={t('command.cameraSnapshot')}
             >
               <Camera className="h-4 w-4" />
               {building.camera && (
@@ -1344,7 +1356,7 @@ function BuildingItem({
                   }}
                 >
                   <Camera className="h-3.5 w-3.5" />
-                  View snapshot
+                  {t('site.viewSnapshot')}
                 </button>
               )}
               <button
@@ -1356,7 +1368,7 @@ function BuildingItem({
                 }}
               >
                 <Camera className="h-3.5 w-3.5" />
-                {building.camera ? 'Update snapshot' : 'Take snapshot'}
+                {building.camera ? t('site.updateSnapshot') : t('site.takeSnapshot')}
               </button>
               {building.camera && (
                 <button
@@ -1368,7 +1380,7 @@ function BuildingItem({
                   }}
                 >
                   <Trash2 className="h-3.5 w-3.5" />
-                  Clear snapshot
+                  {t('site.clearSnapshot')}
                 </button>
               )}
             </div>
@@ -1414,6 +1426,7 @@ export interface SitePanelProps {
 }
 
 export function SitePanel({ projectId, onUploadAsset, onDeleteAsset }: SitePanelProps = {}) {
+  const t = useTranslations('editor')
   const nodes = useScene((state) => state.nodes)
   const rootNodeIds = useScene((state) => state.rootNodeIds)
   const updateNode = useScene((state) => state.updateNode)
@@ -1457,7 +1470,7 @@ export function SitePanel({ projectId, onUploadAsset, onDeleteAsset }: SitePanel
                 )}
                 src="/icons/site.png"
               />
-              <span className="font-medium text-sm">{siteNode.name || 'Site'}</span>
+              <span className="font-medium text-sm">{siteNode.name || t('command.site')}</span>
             </div>
             <CameraPopover
               buttonClassName={cn(
@@ -1495,7 +1508,7 @@ export function SitePanel({ projectId, onUploadAsset, onDeleteAsset }: SitePanel
           {/* Buildings List */}
           {buildings.length === 0 ? (
             <motion.div className="px-3 py-4 text-muted-foreground text-sm" layout="position">
-              No buildings yet
+              {t('site.noBuildings')}
             </motion.div>
           ) : (
             <motion.div className="flex min-h-0 flex-1 flex-col" layout>
