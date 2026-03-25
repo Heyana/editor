@@ -13,6 +13,7 @@ import { useViewer } from '@pascal-app/viewer'
 import { Html } from '@react-three/drei'
 import { useFrame } from '@react-three/fiber'
 import { Copy, Move, Trash2 } from 'lucide-react'
+import { useTranslations } from 'next-intl'
 import { useCallback, useRef } from 'react'
 import * as THREE from 'three'
 import { sfxEmitter } from '../../lib/sfx-bus'
@@ -21,6 +22,7 @@ import useEditor from '../../store/use-editor'
 const ALLOWED_TYPES = ['item', 'door', 'window']
 
 export function FloatingActionMenu() {
+  const t = useTranslations()
   const selectedIds = useViewer((s) => s.selection.selectedIds)
   const nodes = useScene((s) => s.nodes)
   const deleteNode = useScene((s) => s.deleteNode)
@@ -132,21 +134,21 @@ export function FloatingActionMenu() {
           <button
             className="tooltip-trigger rounded-md p-1.5 text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
             onClick={handleMove}
-            title="Move"
+            title={t('editor.actions.move')}
           >
             <Move className="h-4 w-4" />
           </button>
           <button
             className="tooltip-trigger rounded-md p-1.5 text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
             onClick={handleDuplicate}
-            title="Duplicate"
+            title={t('editor.actions.duplicate')}
           >
             <Copy className="h-4 w-4" />
           </button>
           <button
             className="tooltip-trigger rounded-md p-1.5 text-muted-foreground transition-colors hover:bg-destructive/10 hover:text-destructive"
             onClick={handleDelete}
-            title="Delete"
+            title={t('common.delete')}
           >
             <Trash2 className="h-4 w-4" />
           </button>

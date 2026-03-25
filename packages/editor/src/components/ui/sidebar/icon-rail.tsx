@@ -3,6 +3,7 @@
 import { useViewer } from '@pascal-app/viewer'
 import { Moon, Sun } from 'lucide-react'
 import { motion } from 'motion/react'
+import { useTranslations } from 'next-intl'
 import { type ReactNode, useEffect, useState } from 'react'
 import {
   Tooltip,
@@ -20,12 +21,13 @@ interface IconRailProps {
   className?: string
 }
 
-const panels: { id: PanelId; iconSrc: string; label: string }[] = [
-  { id: 'site', iconSrc: '/icons/level.png', label: 'Site' },
-  { id: 'settings', iconSrc: '/icons/settings.png', label: 'Settings' },
+const panels: { id: PanelId; iconSrc: string; labelKey: string }[] = [
+  { id: 'site', iconSrc: '/icons/level.png', labelKey: 'editor.phases.site' },
+  { id: 'settings', iconSrc: '/icons/settings.png', labelKey: 'editor.panels.settings' },
 ]
 
 export function IconRail({ activePanel, onPanelChange, appMenuButton, className }: IconRailProps) {
+  const t = useTranslations()
   const theme = useViewer((state) => state.theme)
   const setTheme = useViewer((state) => state.setTheme)
   const [mounted, setMounted] = useState(false)
@@ -61,7 +63,7 @@ export function IconRail({ activePanel, onPanelChange, appMenuButton, className 
                 type="button"
               >
                 <img
-                  alt={panel.label}
+                  alt={t(panel.labelKey)}
                   className={cn(
                     'h-6 w-6 object-contain transition-all',
                     !isActive && 'opacity-50 saturate-0',
@@ -70,7 +72,7 @@ export function IconRail({ activePanel, onPanelChange, appMenuButton, className 
                 />
               </button>
             </TooltipTrigger>
-            <TooltipContent side="right">{panel.label}</TooltipContent>
+            <TooltipContent side="right">{t(panel.labelKey)}</TooltipContent>
           </Tooltip>
         )
       })}
@@ -97,7 +99,9 @@ export function IconRail({ activePanel, onPanelChange, appMenuButton, className 
               </motion.div>
             </button>
           </TooltipTrigger>
-          <TooltipContent side="right">Toggle theme</TooltipContent>
+          <TooltipContent side="right">
+            {theme === 'dark' ? t('viewer.theme.light') : t('viewer.theme.dark')}
+          </TooltipContent>
         </Tooltip>
       )}
     </div>

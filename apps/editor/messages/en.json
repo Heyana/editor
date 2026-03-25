@@ -1,0 +1,183 @@
+{
+  "common": {
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "close": "Close",
+    "confirm": "Confirm",
+    "add": "Add",
+    "remove": "Remove",
+    "reset": "Reset",
+    "apply": "Apply",
+    "back": "Back",
+    "next": "Next",
+    "finish": "Finish",
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success",
+    "warning": "Warning",
+    "info": "Info"
+  },
+  "editor": {
+    "title": "Pascal Editor",
+    "tools": {
+      "select": "Select",
+      "wall": "Wall",
+      "door": "Door",
+      "window": "Window",
+      "item": "Item",
+      "zone": "Zone",
+      "slab": "Slab",
+      "ceiling": "Ceiling",
+      "roof": "Roof",
+      "room": "Room",
+      "customRoom": "Custom Room",
+      "column": "Column",
+      "stair": "Stair",
+      "propertyLine": "Property Line"
+    },
+    "phases": {
+      "site": "Site",
+      "structure": "Structure",
+      "furnish": "Furnish"
+    },
+    "modes": {
+      "select": "Select Mode",
+      "edit": "Edit Mode",
+      "delete": "Delete Mode",
+      "build": "Build Mode"
+    },
+    "layers": {
+      "zones": "Zones",
+      "elements": "Elements"
+    },
+    "categories": {
+      "furniture": "Furniture",
+      "outdoor": "Outdoor",
+      "bathroom": "Bathroom",
+      "kitchen": "Kitchen",
+      "window": "Window",
+      "door": "Door",
+      "appliance": "Appliance"
+    },
+    "panels": {
+      "properties": "Properties",
+      "layers": "Layers",
+      "catalog": "Catalog",
+      "settings": "Settings",
+      "history": "History"
+    },
+    "settings": {
+      "visibility": "Visibility",
+      "public": "Public",
+      "publicDesc": "Anyone can view",
+      "privateDesc": "Only you can view",
+      "showScans": "Show 3D Scans",
+      "showScansDesc": "Visible to public viewers",
+      "showFloorplans": "Show Floorplans",
+      "showFloorplansDesc": "Visible to public viewers",
+      "showGrid": "Show Grid",
+      "showGridDesc": "Visible only in the editor",
+      "export": "Export",
+      "exportModel": "Export 3D Model",
+      "thumbnail": "Thumbnail",
+      "generateThumbnail": "Generate Thumbnail",
+      "generating": "Generating...",
+      "saveLoad": "Save & Load",
+      "saveBuild": "Save Build",
+      "loadBuild": "Load Build",
+      "audio": "Audio",
+      "keyboard": "Keyboard",
+      "sceneGraph": "Scene Graph",
+      "exploreSceneGraph": "Explore scene graph",
+      "dangerZone": "Danger Zone",
+      "clearAndNew": "Clear & Start New"
+    },
+    "actions": {
+      "undo": "Undo",
+      "redo": "Redo",
+      "copy": "Copy",
+      "paste": "Paste",
+      "duplicate": "Duplicate",
+      "export": "Export",
+      "import": "Import",
+      "move": "Move"
+    }
+  },
+  "viewer": {
+    "camera": {
+      "perspective": "Perspective",
+      "orthographic": "Orthographic",
+      "topView": "Top View",
+      "orbitLeft": "Orbit Left",
+      "orbitRight": "Orbit Right",
+      "label": "Camera"
+    },
+    "level": {
+      "stacked": "Stacked",
+      "exploded": "Exploded",
+      "solo": "Solo",
+      "manual": "Manual",
+      "label": "Levels"
+    },
+    "wall": {
+      "up": "Up",
+      "cutaway": "Cutaway",
+      "down": "Down",
+      "label": "Walls"
+    },
+    "display": {
+      "showScans": "Show Scans",
+      "showGuides": "Show Guides",
+      "showGrid": "Show Grid",
+      "scansVisible": "Scans: Visible",
+      "scansHidden": "Scans: Hidden",
+      "guidesVisible": "Guides: Visible",
+      "guidesHidden": "Guides: Hidden"
+    },
+    "theme": {
+      "light": "Light Theme",
+      "dark": "Dark Theme",
+      "toggle": "Toggle Theme"
+    }
+  },
+  "properties": {
+    "position": "Position",
+    "rotation": "Rotation",
+    "scale": "Scale",
+    "size": "Size",
+    "width": "Width",
+    "height": "Height",
+    "depth": "Depth",
+    "thickness": "Thickness",
+    "color": "Color",
+    "material": "Material",
+    "visible": "Visible",
+    "locked": "Locked",
+    "elevation": "Elevation",
+    "length": "Length",
+    "area": "Area",
+    "dimensions": "Dimensions",
+    "frame": "Frame",
+    "grid": "Grid",
+    "columns": "Columns",
+    "rows": "Rows",
+    "divider": "Divider",
+    "sill": "Sill",
+    "enableSill": "Enable Sill",
+    "holes": "Holes",
+    "addHole": "Add Hole",
+    "flipSide": "Flip Side",
+    "info": "Info",
+    "actions": "Actions",
+    "sunken": "Sunken (-15cm)",
+    "ground": "Ground (0m)",
+    "raised": "Raised (+5cm)",
+    "step": "Step (+15cm)",
+    "done": "Done",
+    "cameraSnapshot": "Camera snapshot",
+    "clearSelection": "Clear selection",
+    "toggleSidebar": "Toggle Sidebar"
+  }
+}

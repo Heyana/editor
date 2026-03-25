@@ -2,7 +2,9 @@
 
 import { type LucideIcon, Pencil, Trash2 } from 'lucide-react'
 import Image from 'next/image'
+import { useTranslations } from 'next-intl'
 import { cn } from './../../../lib/utils'
+import { getModeTranslationKey } from './../../../lib/i18n-helpers'
 import useEditor, { type Mode, type Phase } from './../../../store/use-editor'
 import { ActionButton } from './action-button'
 
@@ -10,7 +12,7 @@ type ModeConfig = {
   id: Mode
   icon?: LucideIcon
   imageSrc?: string
-  label: string
+  labelKey: string
   shortcut: string
   color: string
   activeColor: string
@@ -21,7 +23,7 @@ const allModes: ModeConfig[] = [
   {
     id: 'select',
     imageSrc: '/icons/select.png',
-    label: 'Select',
+    labelKey: 'editor.modes.select',
     shortcut: 'V',
     color: 'hover:bg-blue-500/20 hover:text-blue-400',
     activeColor: 'bg-blue-500/20 text-blue-400',
@@ -29,7 +31,7 @@ const allModes: ModeConfig[] = [
   {
     id: 'edit',
     icon: Pencil,
-    label: 'Edit',
+    labelKey: 'editor.modes.edit',
     shortcut: 'E',
     color: 'hover:bg-orange-500/20 hover:text-orange-400',
     activeColor: 'bg-orange-500/20 text-orange-400',
@@ -37,7 +39,7 @@ const allModes: ModeConfig[] = [
   {
     id: 'build',
     imageSrc: '/icons/build.png',
-    label: 'Build',
+    labelKey: 'editor.modes.build',
     shortcut: 'B',
     color: 'hover:bg-green-500/20 hover:text-green-400',
     activeColor: 'bg-green-500/20 text-green-400',
@@ -45,27 +47,11 @@ const allModes: ModeConfig[] = [
   {
     id: 'delete',
     icon: Trash2,
-    label: 'Delete',
+    labelKey: 'editor.modes.delete',
     shortcut: 'D',
     color: 'hover:bg-red-500/20 hover:text-red-400',
     activeColor: 'bg-red-500/20 text-red-400',
   },
-  // {
-  //   id: 'painting',
-  //   icon: Paintbrush,
-  //   label: 'Painting',
-  //   shortcut: 'P',
-  //   color: 'hover:bg-cyan-500/20 hover:text-cyan-400',
-  //   activeColor: 'bg-cyan-500/20 text-cyan-400',
-  // },
-  // {
-  //   id: 'guide',
-  //   icon: Image,
-  //   label: 'Guide',
-  //   shortcut: 'G',
-  //   color: 'hover:bg-purple-500/20 hover:text-purple-400',
-  //   activeColor: 'bg-purple-500/20 text-purple-400',
-  // },
 ]
 
 // Define which modes are available in each editor mode
@@ -76,6 +62,7 @@ const modesByPhase: Record<Phase, Mode[]> = {
 }
 
 export function ControlModes() {
+  const t = useTranslations()
   const mode = useEditor((state) => state.mode)
   const phase = useEditor((state) => state.phase)
   const setMode = useEditor((state) => state.setMode)
@@ -93,6 +80,7 @@ export function ControlModes() {
         const Icon = m.icon
         const isActive = mode === m.id
         const isImageMode = Boolean(m.imageSrc)
+        const label = t(m.labelKey)
 
         return (
           <ActionButton
@@ -104,7 +92,7 @@ export function ControlModes() {
               isImageMode && !isActive && 'hover:bg-white/5',
             )}
             key={m.id}
-            label={m.label}
+            label={label}
             onClick={() => handleModeClick(m.id)}
             shortcut={m.shortcut}
             size="icon"
@@ -112,7 +100,7 @@ export function ControlModes() {
           >
             {m.imageSrc ? (
               <Image
-                alt={m.label}
+                alt={label}
                 className={cn(
                   'h-[28px] w-[28px] object-contain transition-[opacity,filter] duration-200',
                   !isActive && 'opacity-60 grayscale',

@@ -1,4 +1,6 @@
 import type { Metadata } from 'next'
+import { NextIntlClientProvider } from 'next-intl'
+import { getLocale, getMessages } from 'next-intl/server'
 import { Barlow } from 'next/font/google'
 import localFont from 'next/font/local'
 import Script from 'next/script'
@@ -25,13 +27,16 @@ export const metadata: Metadata = {
   description: 'Standalone building editor',
 }
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode
 }>) {
+  const locale = await getLocale()
+  const messages = await getMessages()
+
   return (
-    <html className={`${geistSans.variable} ${geistMono.variable} ${barlow.variable}`} lang="en">
+    <html className={`${geistSans.variable} ${geistMono.variable} ${barlow.variable}`} lang={locale}>
       <head>
         {process.env.NODE_ENV === 'development' && (
           <>
@@ -48,7 +53,9 @@ export default function RootLayout({
           </>
         )}
       </head>
-      <body className="font-sans">{children}</body>
+      <body className="font-sans">
+        <NextIntlClientProvider messages={messages}>{children}</NextIntlClientProvider>
+      </body>
     </html>
   )
 }

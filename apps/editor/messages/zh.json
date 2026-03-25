@@ -1,0 +1,183 @@
+{
+  "common": {
+    "save": "保存",
+    "cancel": "取消",
+    "delete": "删除",
+    "edit": "编辑",
+    "close": "关闭",
+    "confirm": "确认",
+    "add": "添加",
+    "remove": "移除",
+    "reset": "重置",
+    "apply": "应用",
+    "back": "返回",
+    "next": "下一步",
+    "finish": "完成",
+    "loading": "加载中...",
+    "error": "错误",
+    "success": "成功",
+    "warning": "警告",
+    "info": "信息"
+  },
+  "editor": {
+    "title": "Pascal 编辑器",
+    "tools": {
+      "select": "选择",
+      "wall": "墙体",
+      "door": "门",
+      "window": "窗户",
+      "item": "物品",
+      "zone": "区域",
+      "slab": "地板",
+      "ceiling": "天花板",
+      "roof": "屋顶",
+      "room": "房间",
+      "customRoom": "自定义房间",
+      "column": "柱子",
+      "stair": "楼梯",
+      "propertyLine": "地界线"
+    },
+    "phases": {
+      "site": "场地",
+      "structure": "结构",
+      "furnish": "装饰"
+    },
+    "modes": {
+      "select": "选择模式",
+      "edit": "编辑模式",
+      "delete": "删除模式",
+      "build": "构建模式"
+    },
+    "layers": {
+      "zones": "区域",
+      "elements": "元素"
+    },
+    "categories": {
+      "furniture": "家具",
+      "outdoor": "户外",
+      "bathroom": "浴室",
+      "kitchen": "厨房",
+      "window": "窗户",
+      "door": "门",
+      "appliance": "电器"
+    },
+    "panels": {
+      "properties": "属性",
+      "layers": "图层",
+      "catalog": "目录",
+      "settings": "设置",
+      "history": "历史"
+    },
+    "settings": {
+      "visibility": "可见性",
+      "public": "公开",
+      "publicDesc": "任何人都可以查看",
+      "privateDesc": "仅你可见",
+      "showScans": "显示 3D 扫描",
+      "showScansDesc": "对公众查看者可见",
+      "showFloorplans": "显示平面图",
+      "showFloorplansDesc": "对公众查看者可见",
+      "showGrid": "显示网格",
+      "showGridDesc": "仅在编辑器中可见",
+      "export": "导出",
+      "exportModel": "导出 3D 模型",
+      "thumbnail": "缩略图",
+      "generateThumbnail": "生成缩略图",
+      "generating": "生成中...",
+      "saveLoad": "保存和加载",
+      "saveBuild": "保存构建",
+      "loadBuild": "加载构建",
+      "audio": "音频",
+      "keyboard": "键盘",
+      "sceneGraph": "场景图",
+      "exploreSceneGraph": "浏览场景图",
+      "dangerZone": "危险区域",
+      "clearAndNew": "清空并新建"
+    },
+    "actions": {
+      "undo": "撤销",
+      "redo": "重做",
+      "copy": "复制",
+      "paste": "粘贴",
+      "duplicate": "复制",
+      "export": "导出",
+      "import": "导入",
+      "move": "移动"
+    }
+  },
+  "viewer": {
+    "camera": {
+      "perspective": "透视",
+      "orthographic": "正交",
+      "topView": "顶视图",
+      "orbitLeft": "向左旋转",
+      "orbitRight": "向右旋转",
+      "label": "相机"
+    },
+    "level": {
+      "stacked": "堆叠",
+      "exploded": "展开",
+      "solo": "单独",
+      "manual": "手动",
+      "label": "层级"
+    },
+    "wall": {
+      "up": "显示",
+      "cutaway": "剖切",
+      "down": "隐藏",
+      "label": "墙体"
+    },
+    "display": {
+      "showScans": "显示扫描",
+      "showGuides": "显示参考线",
+      "showGrid": "显示网格",
+      "scansVisible": "扫描：可见",
+      "scansHidden": "扫描：隐藏",
+      "guidesVisible": "参考线：可见",
+      "guidesHidden": "参考线：隐藏"
+    },
+    "theme": {
+      "light": "浅色主题",
+      "dark": "深色主题",
+      "toggle": "切换主题"
+    }
+  },
+  "properties": {
+    "position": "位置",
+    "rotation": "旋转",
+    "scale": "缩放",
+    "size": "尺寸",
+    "width": "宽度",
+    "height": "高度",
+    "depth": "深度",
+    "thickness": "厚度",
+    "color": "颜色",
+    "material": "材质",
+    "visible": "可见",
+    "locked": "锁定",
+    "elevation": "高程",
+    "length": "长度",
+    "area": "面积",
+    "dimensions": "尺寸",
+    "frame": "框架",
+    "grid": "网格",
+    "columns": "列数",
+    "rows": "行数",
+    "divider": "分隔条",
+    "sill": "窗台",
+    "enableSill": "启用窗台",
+    "holes": "孔洞",
+    "addHole": "添加孔洞",
+    "flipSide": "翻转侧面",
+    "info": "信息",
+    "actions": "操作",
+    "sunken": "下沉 (-15cm)",
+    "ground": "地面 (0m)",
+    "raised": "抬高 (+5cm)",
+    "step": "台阶 (+15cm)",
+    "done": "完成",
+    "cameraSnapshot": "相机快照",
+    "clearSelection": "清除选择",
+    "toggleSidebar": "切换侧边栏"
+  }
+}

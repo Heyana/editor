@@ -1,9 +1,11 @@
 'use client'
 
 import NextImage from 'next/image'
+import { useTranslations } from 'next-intl'
 import { useContextualTools } from '../../../hooks/use-contextual-tools'
 
 import { cn } from '../../../lib/utils'
+import { getToolTranslationKey } from '../../../lib/i18n-helpers'
 import useEditor, {
   type CatalogCategory,
   type StructureTool,
@@ -14,23 +16,22 @@ import { ActionButton } from './action-button'
 export type ToolConfig = {
   id: StructureTool
   iconSrc: string
-  label: string
+  labelKey: string
   catalogCategory?: CatalogCategory
 }
 
 export const tools: ToolConfig[] = [
-  { id: 'wall', iconSrc: '/icons/wall.png', label: 'Wall' },
-  // { id: 'room', iconSrc: '/icons/room.png', label: 'Room' },
-  // { id: 'custom-room', iconSrc: '/icons/custom-room.png', label: 'Custom Room' },
-  { id: 'slab', iconSrc: '/icons/floor.png', label: 'Slab' },
-  { id: 'ceiling', iconSrc: '/icons/ceiling.png', label: 'Ceiling' },
-  { id: 'roof', iconSrc: '/icons/roof.png', label: 'Gable Roof' },
-  { id: 'door', iconSrc: '/icons/door.png', label: 'Door' },
-  { id: 'window', iconSrc: '/icons/window.png', label: 'Window' },
-  { id: 'zone', iconSrc: '/icons/zone.png', label: 'Zone' },
+  { id: 'wall', iconSrc: '/icons/wall.png', labelKey: 'editor.tools.wall' },
+  { id: 'slab', iconSrc: '/icons/floor.png', labelKey: 'editor.tools.slab' },
+  { id: 'ceiling', iconSrc: '/icons/ceiling.png', labelKey: 'editor.tools.ceiling' },
+  { id: 'roof', iconSrc: '/icons/roof.png', labelKey: 'editor.tools.roof' },
+  { id: 'door', iconSrc: '/icons/door.png', labelKey: 'editor.tools.door' },
+  { id: 'window', iconSrc: '/icons/window.png', labelKey: 'editor.tools.window' },
+  { id: 'zone', iconSrc: '/icons/zone.png', labelKey: 'editor.tools.zone' },
 ]
 
 export function StructureTools() {
+  const t = useTranslations()
   const activeTool = useEditor((state) => state.tool)
   const catalogCategory = useEditor((state) => state.catalogCategory)
   const structureLayer = useEditor((state) => state.structureLayer)
@@ -59,6 +60,7 @@ export function StructureTools() {
           (tool.catalogCategory ? catalogCategory === tool.catalogCategory : true)
 
         const isContextual = contextualTools.includes(tool.id)
+        const label = t(tool.labelKey)
 
         return (
           <ActionButton
@@ -69,7 +71,7 @@ export function StructureTools() {
                 : 'scale-95 bg-transparent opacity-60 grayscale hover:bg-black/20 hover:opacity-100 hover:grayscale-0',
             )}
             key={`${tool.id}-${tool.catalogCategory ?? index}`}
-            label={tool.label}
+            label={label}
             onClick={() => {
               if (!isActive) {
                 setTool(tool.id)
@@ -85,7 +87,7 @@ export function StructureTools() {
             variant="ghost"
           >
             <NextImage
-              alt={tool.label}
+              alt={label}
               className="size-full object-contain"
               height={28}
               src={tool.iconSrc}
