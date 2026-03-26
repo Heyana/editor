@@ -72,7 +72,7 @@ export function RoofPanel() {
           <span>{t('properties.total')}: {totalWidth.toFixed(1)}m</span>
         </div>
         <SliderControl
-          label={t('common.left')}
+          label={t('properties.left')}
           max={10}
           min={0.1}
           onChange={(v) => handleUpdate({ leftWidth: v })}
@@ -82,7 +82,7 @@ export function RoofPanel() {
           value={Math.round(node.leftWidth * 100) / 100}
         />
         <SliderControl
-          label={t('common.right')}
+          label={t('properties.right')}
           max={10}
           min={0.1}
           onChange={(v) => handleUpdate({ rightWidth: v })}
